@@ -31,10 +31,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  // int _counter = 0;
-
   get onPressed => null;
-  final List<Map> myProducts = List.generate(10, (index) => {"id": index, "name": "Product $index"}).toList();
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +109,7 @@ class SymptomButtons extends StatelessWidget {
         SymptomButton(
           clinicalName: 'Cough',
           definition: '1',
-          buttonState: 'off',
+          buttonState: 'present',
         ),
         SymptomButton(
           clinicalName: 'dihydrorhodamine assay abnormal',
@@ -121,19 +118,72 @@ class SymptomButtons extends StatelessWidget {
         ),
         SymptomButton(
           clinicalName: 'PCR of saliva, stool or CSF positive for Tropheryma whipplei',
-          definition: '4',
-          buttonState: 'absent',
+          definition: '',
+          buttonState: 'off',
         ),
         SymptomButton(
-          clinicalName:
-              'Quisque viverra nunc eget dui. Etiam iaculis tincidunt sapien. Aliquam erat volutpat. Mauris sagittis mi suscipit est. Maecenas adipiscing erat vestibulum purus. In scelerisque facilisis risus. In ac erat. Etiam nulla. Donec ut arcu sit amet nisi sollicitudin gravida.',
+          clinicalName: 'upper extremity muscle weakness, unilateral',
           definition: '3',
           buttonState: 'off',
         ),
         SymptomButton(
-          clinicalName:
-              'Quisque viverra nunc eget dui. Etiam iaculis tincidunt sapien. Aliquam erat volutpat. Mauris sagittis mi suscipit est. Maecenas adipiscing erat vestibulum purus. In scelerisque facilisis risus. In ac erat. Etiam nulla. Donec ut arcu sit amet nisi sollicitudin gravida.',
+          clinicalName: 'toe paresthesia',
           definition: '1',
+          buttonState: 'off',
+        ),
+        SymptomButton(
+          clinicalName: 'PAS-positive macrophages on small bowel biopsy',
+          definition: '1',
+          buttonState: 'off',
+        ),
+        SymptomButton(
+          clinicalName: 'migratory polyarthritis',
+          definition: '',
+          buttonState: 'off',
+        ),
+        SymptomButton(
+          clinicalName: 'symptoms improve on gluten-free diet',
+          definition: '4',
+          buttonState: 'absent',
+        ),
+        SymptomButton(
+          clinicalName: 'upper extremity pulse decrease with head maneuver or Valsalva',
+          definition: '',
+          buttonState: 'off',
+        ),
+        SymptomButton(
+          clinicalName: 'distal symmetric polyneuropathy',
+          definition: '1',
+          buttonState: 'off',
+        ),
+        SymptomButton(
+          clinicalName: 'finger agnosia',
+          definition: '1',
+          buttonState: 'off',
+        ),
+        SymptomButton(
+          clinicalName: 'arsenic exposure',
+          definition: '3',
+          buttonState: 'off',
+        ),
+        SymptomButton(
+          clinicalName: 'nail banding, transverse white',
+          definition: '4',
+          buttonState: 'off',
+        ),
+        SymptomButton(
+          clinicalName: 'polyserositis',
+          definition: '3',
+          buttonState: 'off',
+        ),
+        SymptomButton(
+          clinicalName: 'morning stiffness',
+          definition: '4',
+          buttonState: 'off',
+        ),
+        SymptomButton(
+          clinicalName: 'glucose intolerance',
+          definition: '3',
           buttonState: 'off',
         ),
       ],
@@ -167,7 +217,7 @@ class SymptomButton extends StatelessWidget {
                 ? DeviceConfig().geButtonStyle(context, symptomButtonPresent)
                 : DeviceConfig().geButtonStyle(context, symptomButtonAbsent)),
         child: Padding(
-          padding: const EdgeInsets.only(left: 16.0),
+          padding: EdgeInsets.only(left: 16.0, right: definition != '' ? 0 : 16),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -267,7 +317,7 @@ class CaseCard extends StatelessWidget {
                             child: Column(
                               children: [
                                 Text('HOLE', style: Theme.of(context).textTheme.headline3),
-                                Text('1', style: Theme.of(context).textTheme.headline4),
+                                Text('1', style: Theme.of(context).textTheme.headline4?.copyWith(fontSize: 24)),
                               ],
                             ),
                           ),
@@ -326,7 +376,7 @@ class CaseCard extends StatelessWidget {
                             child: Column(
                               children: [
                                 Text('STROKE', style: Theme.of(context).textTheme.headline3),
-                                Text('1', style: Theme.of(context).textTheme.headline4),
+                                Text('3', style: Theme.of(context).textTheme.headline4),
                               ],
                             ),
                           ),

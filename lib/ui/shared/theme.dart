@@ -19,7 +19,7 @@ class DXPlainOpenTheme {
       textTheme: TextTheme(
         overline: TextStyle(fontSize: 14.0, letterSpacing: 0, fontWeight: FontWeight.w500, color: Colors.green[700]),
         headline3: TextStyle(color: Colors.white, fontSize: 12),
-        headline4: TextStyle(color: Colors.white),
+        headline4: TextStyle(color: Colors.white, fontSize: 24),
       ),
       scaffoldBackgroundColor: Colors.white,
       inputDecorationTheme: InputDecorationTheme(
@@ -62,7 +62,7 @@ class DXPlainOpenTheme {
       textTheme: TextTheme(
         overline: TextStyle(fontSize: 14.0, letterSpacing: 0, fontWeight: FontWeight.w500, color: Colors.green[700]),
         headline3: TextStyle(color: Colors.white, fontSize: 12),
-        headline4: TextStyle(color: Colors.white),
+        headline4: TextStyle(color: Colors.white, fontSize: 24),
       ),
       scaffoldBackgroundColor: Colors.grey[900],
       inputDecorationTheme: InputDecorationTheme(
@@ -100,6 +100,8 @@ double cardElevation = 0;
 
 // SIZES FOR THE SYMPTOM BUTTONS THE USER INTERACTS WITH
 // Includes both sizes for phones and desktop devices
+
+//MOBILE SIZES
 double mobileSymptomButtonWidth = (mobileMaxWidth / 2) - mobilePadding;
 double mobileSymptomButtonHeight = 45;
 double mobileSymptomButtonRunSpacing = 8;
@@ -107,10 +109,12 @@ double mobileSymptomTextSize = 14;
 double mobileSymptomTextMinSize = 8;
 int mobileSymptomTextMaxLines = 3;
 double mobileSymptomDefinitionButtonSize = mobileSymptomButtonHeight;
+
+//DESKTOP SIZES
 double desktopSymptomButtonWidth = ((desktopMaxWidth - (desktopPadding / 2)) / 2);
 double desktopSymptomButtonHeight = 65;
 double desktopSymptomButtonRunSpacing = 8;
-double desktopSymptomTextSize = 16;
+double desktopSymptomTextSize = 14;
 double desktopSymptomTextMinSize = 10;
 int desktopSymptomTextMaxLines = 4;
 double desktopSymptomDefinitionButtonSize = desktopSymptomButtonHeight;
@@ -277,6 +281,13 @@ class UILinearGradient {
   final LinearGradient? light;
   final LinearGradient? dark;
   UILinearGradient({required this.light, required this.dark});
+}
+
+class ResponsiveTextStyle {
+  final TextStyle? sm;
+  final TextStyle? md;
+  final TextStyle? lg;
+  ResponsiveTextStyle({required this.sm, required this.md, required this.lg});
 }
 
 // DEVICE CONFIG - SCREEN SIZE AND ORIENTATION
