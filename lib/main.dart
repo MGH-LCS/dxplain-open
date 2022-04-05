@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:dxplain_open/ui/shared/colors.dart';
-import 'package:dxplain_open/ui/shared/decorations.dart';
-import 'package:dxplain_open/ui/shared/device.dart';
 import 'package:dxplain_open/ui/shared/theme.dart';
-
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 void main() {
@@ -13,11 +10,10 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'DXplain Open',
       theme: DXPlainOpenTheme.lightTheme,
       darkTheme: DXPlainOpenTheme.darkTheme,
       home: const MyHomePage(title: 'DXplain Open'),
@@ -28,15 +24,6 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final String title;
 
   @override
@@ -44,33 +31,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  // int _counter = 0;
 
   get onPressed => null;
-
-  // void _incrementCounter() {
-  //   setState(() {
-  //     // This call to setState tells the Flutter framework that something has
-  //     // changed in this State, which causes it to rerun the build method below
-  //     // so that the display can reflect the updated values. If we changed
-  //     // _counter without calling setState(), then the build method would not be
-  //     // called again, and so nothing would appear to happen.
-  //     _counter++;
-  //   });
-  // }
+  final List<Map> myProducts = List.generate(10, (index) => {"id": index, "name": "Product $index"}).toList();
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+    DeviceConfig().init(context);
+
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         leading: IconButton(
           onPressed: onPressed,
           icon: Icon(
@@ -95,41 +66,293 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            // const Text(
-            //   'You have pushed the button this many times:',
-            // ),
-            // Text(
-            //   '$_counter',
-            //   style: Theme.of(context).textTheme.headline4,
-            // ),
-          ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(DeviceConfig.isPhone! ? mobilePadding : desktopPadding * 2),
+            child: Center(
+              child: Column(
+                // mainAxisAlignment: DeviceConfig.isPhone! ? MainAxisAlignment.start : MainAxisAlignment.start,
+                // crossAxisAlignment: DeviceConfig.isPhone! ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: DeviceConfig.isPhone! ? mobileMaxWidth : desktopMaxWidth,
+                    child: Column(
+                      children: [
+                        CaseCard(),
+                        SizedBox(height: mobilePadding),
+                        DiagnosisCard(),
+                        SizedBox(height: mobilePadding),
+                        SymptomButtons(),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: _incrementCounter,
-      //   tooltip: 'Increment',
-      //   child: const Icon(Icons.add),
-      // ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+
+//THIS IS THE LIST OF SYMPTOM BUTTONS
+class SymptomButtons extends StatelessWidget {
+  const SymptomButtons({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 8.0, // gap between adjacent chips
+      runSpacing: DeviceConfig.isPhone! ? mobileSymptomButtonRunSpacing : desktopSymptomButtonRunSpacing, // gap between lines
+      children: <Widget>[
+        SymptomButton(
+          clinicalName: 'Cough',
+          definition: '1',
+          buttonState: 'off',
+        ),
+        SymptomButton(
+          clinicalName: 'dihydrorhodamine assay abnormal',
+          definition: '3',
+          buttonState: 'present',
+        ),
+        SymptomButton(
+          clinicalName: 'PCR of saliva, stool or CSF positive for Tropheryma whipplei',
+          definition: '4',
+          buttonState: 'absent',
+        ),
+        SymptomButton(
+          clinicalName:
+              'Quisque viverra nunc eget dui. Etiam iaculis tincidunt sapien. Aliquam erat volutpat. Mauris sagittis mi suscipit est. Maecenas adipiscing erat vestibulum purus. In scelerisque facilisis risus. In ac erat. Etiam nulla. Donec ut arcu sit amet nisi sollicitudin gravida.',
+          definition: '3',
+          buttonState: 'off',
+        ),
+        SymptomButton(
+          clinicalName:
+              'Quisque viverra nunc eget dui. Etiam iaculis tincidunt sapien. Aliquam erat volutpat. Mauris sagittis mi suscipit est. Maecenas adipiscing erat vestibulum purus. In scelerisque facilisis risus. In ac erat. Etiam nulla. Donec ut arcu sit amet nisi sollicitudin gravida.',
+          definition: '1',
+          buttonState: 'off',
+        ),
+      ],
+    );
+  }
+}
+
+// THIS ARE THE SYMPTOM BUTTONS - THE LIGHTBULB/DEFINE ICON WILL NOT ALWAYS BE PRESENT - DEPENDS
+// ON IF THE SYMPTOM HAS A DEFINITION THAT EXISTS IN THE DXPLAIN DATABASE
+class SymptomButton extends StatelessWidget {
+  String clinicalName;
+  String definition;
+  String buttonState;
+
+  SymptomButton({
+    required this.clinicalName,
+    required this.definition,
+    required this.buttonState,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: DeviceConfig.isPhone! ? mobileSymptomButtonWidth : desktopSymptomButtonWidth,
+      height: DeviceConfig.isPhone! ? mobileSymptomButtonHeight : desktopSymptomButtonHeight,
+      child: OutlinedButton(
+        onPressed: () {},
+        style: buttonState == 'off'
+            ? DeviceConfig().geButtonStyle(context, symptomButtonOff)
+            : (buttonState == 'present'
+                ? DeviceConfig().geButtonStyle(context, symptomButtonPresent)
+                : DeviceConfig().geButtonStyle(context, symptomButtonAbsent)),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 4, bottom: 4),
+                  child: AutoSizeText(
+                    clinicalName,
+                    style: TextStyle(
+                      fontSize: DeviceConfig.isPhone! ? mobileSymptomTextSize : desktopSymptomTextSize,
+                      color: DeviceConfig().getColor(context, btnSymptomTextColor),
+                    ),
+                    minFontSize: DeviceConfig.isPhone! ? mobileSymptomTextMinSize : desktopSymptomTextMinSize,
+                    maxLines: DeviceConfig.isPhone! ? mobileSymptomTextMaxLines : desktopSymptomTextMaxLines,
+                    wrapWords: false,
+                  ),
+                ),
+              ),
+              // THE RIGHT JUSTIFIED ICON THAT IS ONLY PRESENT IF THE SYMPTOM HAS A DEFINITION
+              Visibility(
+                visible: definition != '',
+                child: Material(
+                  color: Colors.grey[200]!.withOpacity(.1),
+                  shape: const CircleBorder(),
+                  clipBehavior: Clip.hardEdge,
+                  child: IconButton(
+                    constraints: BoxConstraints(
+                        maxHeight: DeviceConfig.isPhone! ? mobileSymptomDefinitionButtonSize : desktopSymptomDefinitionButtonSize,
+                        maxWidth: DeviceConfig.isPhone! ? mobileSymptomDefinitionButtonSize : desktopSymptomDefinitionButtonSize,
+                        minWidth: DeviceConfig.isPhone! ? mobileSymptomDefinitionButtonSize : desktopSymptomDefinitionButtonSize,
+                        minHeight:
+                            DeviceConfig.isPhone! ? mobileSymptomDefinitionButtonSize : desktopSymptomDefinitionButtonSize),
+                    color: DeviceConfig().getColor(context, btnSymptomDefinitionIconColor),
+                    icon: const Icon(
+                      Icons.lightbulb,
+                      size: 20.0,
+                    ),
+                    onPressed: () {},
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// THIS IS THE ENTER YOUR DIAGNOSIS CARD< EVENTUALLY IT WILL BE A DROPDOWN OF CHOICES
+class DiagnosisCard extends StatelessWidget {
+  const DiagnosisCard({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: EdgeInsets.zero,
+      elevation: cardElevation,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 8.0),
+        child: TextFormField(
+          decoration: const InputDecoration(hintText: 'Enter your diagnosis', suffixIcon: Icon(Icons.arrow_drop_down)),
+        ),
+      ),
+    );
+  }
+}
+
+//THIS IS THE CASE CARD THAT APPEARS AT THE VERY TOP OF THE SCREEN
+class CaseCard extends StatelessWidget {
+  const CaseCard({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: EdgeInsets.zero,
+      elevation: cardElevation,
+      child: Column(
+        children: [
+          IntrinsicHeight(
+            child: Row(
+              children: [
+                Flexible(
+                  flex: 1,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          decoration: DeviceConfig().getBoxDecoration(context, cardHoleDecoration),
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Column(
+                              children: [
+                                Text('HOLE', style: Theme.of(context).textTheme.headline3),
+                                Text('1', style: Theme.of(context).textTheme.headline4),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          decoration: DeviceConfig().getBoxDecoration(context, cardParDecoration),
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Column(
+                              children: [
+                                Text('PAR', style: Theme.of(context).textTheme.headline3),
+                                Text('8', style: Theme.of(context).textTheme.headline4),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Flexible(
+                  flex: 4,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text("Jan 1, 2022"),
+                        SizedBox(height: 10.0),
+                        Text(
+                          "45 year old female presents with airway compression or obstruction for the past 24 hours",
+                          maxLines: 100,
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          IntrinsicHeight(
+            child: Row(
+              children: [
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          decoration: DeviceConfig().getBoxDecoration(context, cardStrokeDecoration),
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Column(
+                              children: [
+                                Text('STROKE', style: Theme.of(context).textTheme.headline3),
+                                Text('1', style: Theme.of(context).textTheme.headline4),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Flexible(
+                  flex: 4,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(16.0, 16, 16, 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text("Lorem ipsum dolor sit amet, consectetuer "),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
