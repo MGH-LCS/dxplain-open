@@ -185,7 +185,7 @@ UIButtonStyle symptomButtonPresent = UIButtonStyle(
 
 UIButtonStyle symptomButtonAbsent = UIButtonStyle(
   light: ButtonStyle(
-    backgroundColor: MaterialStateProperty.all<Color>(Colors.pink[600]!),
+    backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
     padding: MaterialStateProperty.all(EdgeInsets.all(0)),
     shape: MaterialStateProperty.all(
       RoundedRectangleBorder(
@@ -194,7 +194,7 @@ UIButtonStyle symptomButtonAbsent = UIButtonStyle(
     ),
   ),
   dark: ButtonStyle(
-    backgroundColor: MaterialStateProperty.all<Color>(Colors.pink[600]!),
+    backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
     padding: MaterialStateProperty.all(EdgeInsets.all(0)),
     shape: MaterialStateProperty.all(
       RoundedRectangleBorder(
@@ -289,28 +289,28 @@ class Breakpoint {
   Breakpoint({required this.caseFontSize, required this.height});
 }
 
-// Map<String, Breakpoint> _breakpoints = {
-//   "xs": Breakpoint(
-//     caseFontSize: TextStyle(fontSize: 14.0),
-//     height: 30,
-//   ),
-//   "sm": Breakpoint(
-//     caseFontSize: TextStyle(fontSize: 14.0),
-//     height: 30,
-//   ),
-//   "md": Breakpoint(
-//     caseFontSize: TextStyle(fontSize: 18.0),
-//     height: 30,
-//   ),
-//   "lg": Breakpoint(
-//     caseFontSize: TextStyle(fontSize: 20.0),
-//     height: 30,
-//   ),
-//   "xl": Breakpoint(
-//     caseFontSize: TextStyle(fontSize: 24.0),
-//     height: 30,
-//   ),
-// };
+Map<String, Breakpoint> _breakpoints = {
+  "xs": Breakpoint(
+    caseFontSize: TextStyle(fontSize: 14.0),
+    height: 30,
+  ),
+  "sm": Breakpoint(
+    caseFontSize: TextStyle(fontSize: 16.0),
+    height: 30,
+  ),
+  "md": Breakpoint(
+    caseFontSize: TextStyle(fontSize: 18.0),
+    height: 30,
+  ),
+  "lg": Breakpoint(
+    caseFontSize: TextStyle(fontSize: 20.0),
+    height: 30,
+  ),
+  "xl": Breakpoint(
+    caseFontSize: TextStyle(fontSize: 24.0),
+    height: 30,
+  ),
+};
 
 // DEVICE CONFIG - SCREEN SIZE AND ORIENTATION
 class DeviceConfig {
@@ -323,15 +323,12 @@ class DeviceConfig {
   static double? screenWidth;
   static double? screenHeight;
 
-  static double? blockSizeHorizontal;
-  static double? blockSizeVertical;
-
   //** PROPERTIES FOR SYSTEM BRIGHNTESS MODE (LIGHT/DARK) */
   static Brightness? brightnessValue;
   static String? widthBreakpointName;
   //** IF THERE IS ONLY ONE COLOR/DECORATOR IN THE OBJECT IT WILL HANDLE IT */
 
-  //Breakpoint? getBreakpoint(context) => _breakpoints[widthBreakpointName];
+  Breakpoint? getBreakpoint(context) => _breakpoints[widthBreakpointName];
   //TextStyle? getResponsiveTextStyle(BuildContext context, ResponsiveTextStyle textStyle) => ;
 
   Orientation getScreenOrientation(context) => MediaQuery.of(context).orientation;
@@ -363,10 +360,6 @@ class DeviceConfig {
 
     screenWidth = data!.size.width;
     screenHeight = data!.size.height;
-
-    blockSizeHorizontal = screenWidth! / 100;
-    blockSizeVertical = screenHeight! / 100;
-
     isPhone = screenWidth! < 600;
 
     List<List> widthBreakpoints = [

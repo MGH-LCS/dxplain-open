@@ -108,99 +108,83 @@ class SymptomButtons extends StatelessWidget {
       children: <Widget>[
         SymptomButton(
           clinicalName: 'Cough',
-          definition: '',
+          definition: '1',
           buttonState: 'present',
-          stroke: '1',
         ),
         SymptomButton(
           clinicalName: 'dihydrorhodamine assay abnormal',
-          definition: '',
+          definition: '3',
           buttonState: 'present',
-          stroke: '2',
         ),
         SymptomButton(
           clinicalName: 'PCR of saliva, stool or CSF positive for Tropheryma whipplei',
           definition: '',
           buttonState: 'off',
-          stroke: '',
         ),
         SymptomButton(
           clinicalName: 'upper extremity muscle weakness, unilateral',
           definition: '3',
           buttonState: 'off',
-          stroke: '',
         ),
         SymptomButton(
           clinicalName: 'toe paresthesia',
           definition: '1',
           buttonState: 'off',
-          stroke: '',
         ),
         SymptomButton(
           clinicalName: 'PAS-positive macrophages on small bowel biopsy',
           definition: '1',
           buttonState: 'off',
-          stroke: '',
         ),
         SymptomButton(
           clinicalName: 'migratory polyarthritis',
-          definition: '1',
+          definition: '',
           buttonState: 'off',
-          stroke: '',
         ),
         SymptomButton(
           clinicalName: 'symptoms improve on gluten-free diet',
           definition: '4',
           buttonState: 'absent',
-          stroke: '3',
         ),
         SymptomButton(
           clinicalName: 'upper extremity pulse decrease with head maneuver or Valsalva',
-          definition: '1',
+          definition: '',
           buttonState: 'off',
-          stroke: '',
         ),
         SymptomButton(
           clinicalName: 'distal symmetric polyneuropathy',
           definition: '1',
           buttonState: 'off',
-          stroke: '',
         ),
         SymptomButton(
           clinicalName: 'finger agnosia',
           definition: '1',
           buttonState: 'off',
-          stroke: '',
         ),
         SymptomButton(
           clinicalName: 'arsenic exposure',
           definition: '3',
           buttonState: 'off',
-          stroke: '',
         ),
         SymptomButton(
           clinicalName: 'nail banding, transverse white',
           definition: '4',
           buttonState: 'off',
-          stroke: '',
         ),
         SymptomButton(
-          clinicalName: 'polys',
-          definition: '',
+          clinicalName: 'polyserositis',
+          definition: '3',
           buttonState: 'off',
-          stroke: '2',
         ),
         SymptomButton(
           clinicalName: 'morning stiffness',
           definition: '4',
           buttonState: 'off',
-          stroke: '',
         ),
         SymptomButton(
           clinicalName: 'glucose intolerance',
           definition: '3',
           buttonState: 'off',
-          stroke: '',
         ),
       ],
     );
@@ -213,13 +197,11 @@ class SymptomButton extends StatelessWidget {
   String clinicalName;
   String definition;
   String buttonState;
-  String stroke;
 
   SymptomButton({
     required this.clinicalName,
     required this.definition,
     required this.buttonState,
-    required this.stroke,
   });
 
   @override
@@ -235,7 +217,7 @@ class SymptomButton extends StatelessWidget {
                 ? DeviceConfig().geButtonStyle(context, symptomButtonPresent)
                 : DeviceConfig().geButtonStyle(context, symptomButtonAbsent)),
         child: Padding(
-          padding: EdgeInsets.only(left: 16.0, right: definition != '' || stroke != '' ? 0 : 16),
+          padding: EdgeInsets.only(left: 16.0, right: definition != '' ? 0 : 16),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -254,62 +236,26 @@ class SymptomButton extends StatelessWidget {
                   ),
                 ),
               ),
-              // THE RIGHT JUSTIFIED ICON THAT IS ONLY PRESENT IF THE SYMPTOM HAS A DEFINITION OR A STROKE COUNT
+              // THE RIGHT JUSTIFIED ICON THAT IS ONLY PRESENT IF THE SYMPTOM HAS A DEFINITION
               Visibility(
-                visible: definition != '' || stroke != '',
+                visible: definition != '',
                 child: Material(
                   color: Colors.grey[200]!.withOpacity(.1),
                   shape: const CircleBorder(),
                   clipBehavior: Clip.hardEdge,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Visibility(
-                        visible: definition != '' && stroke == '',
-                        child: IconButton(
-                          constraints: BoxConstraints(
-                              maxHeight:
-                                  DeviceConfig.isPhone! ? mobileSymptomDefinitionButtonSize : desktopSymptomDefinitionButtonSize,
-                              maxWidth:
-                                  DeviceConfig.isPhone! ? mobileSymptomDefinitionButtonSize : desktopSymptomDefinitionButtonSize,
-                              minWidth:
-                                  DeviceConfig.isPhone! ? mobileSymptomDefinitionButtonSize : desktopSymptomDefinitionButtonSize,
-                              minHeight:
-                                  DeviceConfig.isPhone! ? mobileSymptomDefinitionButtonSize : desktopSymptomDefinitionButtonSize),
-                          color: DeviceConfig().getColor(context, btnSymptomDefinitionIconColor),
-                          icon: const Icon(
-                            Icons.lightbulb,
-                            size: 20.0,
-                          ),
-                          onPressed: () {},
-                        ),
-                      ),
-                      Visibility(
-                        visible: stroke != '',
-                        child: Container(
-                            constraints: BoxConstraints(
-                                maxHeight: DeviceConfig.isPhone!
-                                    ? mobileSymptomDefinitionButtonSize
-                                    : desktopSymptomDefinitionButtonSize,
-                                maxWidth: DeviceConfig.isPhone!
-                                    ? mobileSymptomDefinitionButtonSize
-                                    : desktopSymptomDefinitionButtonSize,
-                                minWidth: DeviceConfig.isPhone!
-                                    ? mobileSymptomDefinitionButtonSize
-                                    : desktopSymptomDefinitionButtonSize,
-                                minHeight: DeviceConfig.isPhone!
-                                    ? mobileSymptomDefinitionButtonSize
-                                    : desktopSymptomDefinitionButtonSize),
-                            child: Center(
-                                child: Text(
-                              stroke,
-                              style: TextStyle(
-                                fontSize: DeviceConfig.isPhone! ? mobileSymptomTextSize : desktopSymptomTextSize,
-                                color: DeviceConfig().getColor(context, btnSymptomTextColor),
-                              ),
-                            ))),
-                      ),
-                    ],
+                  child: IconButton(
+                    constraints: BoxConstraints(
+                        maxHeight: DeviceConfig.isPhone! ? mobileSymptomDefinitionButtonSize : desktopSymptomDefinitionButtonSize,
+                        maxWidth: DeviceConfig.isPhone! ? mobileSymptomDefinitionButtonSize : desktopSymptomDefinitionButtonSize,
+                        minWidth: DeviceConfig.isPhone! ? mobileSymptomDefinitionButtonSize : desktopSymptomDefinitionButtonSize,
+                        minHeight:
+                            DeviceConfig.isPhone! ? mobileSymptomDefinitionButtonSize : desktopSymptomDefinitionButtonSize),
+                    color: DeviceConfig().getColor(context, btnSymptomDefinitionIconColor),
+                    icon: const Icon(
+                      Icons.lightbulb,
+                      size: 20.0,
+                    ),
+                    onPressed: () {},
                   ),
                 ),
               ),
@@ -403,11 +349,12 @@ class CaseCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text("Jan 1, 2022"),
+                        Text("Jan 1, 2022", style: _breakpoint.caseFontSize),
                         SizedBox(height: 10.0),
                         Text(
                           "45 year old female presents with airway compression or obstruction for the past 24 hours",
                           maxLines: 100,
+                          style: DeviceConfig().getBreakpoint(context)!.caseFontSize,
                         ),
                       ],
                     ),
