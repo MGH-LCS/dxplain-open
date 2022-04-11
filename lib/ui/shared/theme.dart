@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -91,10 +93,12 @@ double appPadding = 32;
 double appBorderRadius = 22.5;
 
 double mobilePadding = 12;
-double desktopPadding = 24;
+double tabletPadding = 24;
+double desktopPadding = 36;
 
 double mobileMaxWidth = DeviceConfig.screenWidth! - mobilePadding;
-double desktopMaxWidth = 500;
+double tabletMaxWidth = DeviceConfig.screenWidth! - tabletPadding;
+double desktopMaxWidth = DeviceConfig.screenWidth! - (desktopPadding * 8);
 
 double cardElevation = 0;
 
@@ -240,7 +244,55 @@ UIBoxDecoration cardStrokeDecoration = UIBoxDecoration(
   ),
 );
 
-//  Class Definitions  //
+ResponsiveBreakpoint cardHoleDetailsHeadline3 = ResponsiveBreakpoint<TextStyle>(
+  phone: (context) => TextStyle(
+    fontSize: 12,
+    color: Colors.white,
+  ),
+  tablet: (context) => TextStyle(
+    fontSize: 14,
+    color: Colors.white,
+  ),
+  desktop: (context) => TextStyle(
+    fontSize: 16,
+    color: Colors.white,
+  ),
+);
+
+ResponsiveBreakpoint cardHoleDetailsHeadline4 = ResponsiveBreakpoint<TextStyle>(
+  phone: (context) => TextStyle(
+    fontSize: 20,
+    color: DeviceConfig().getColor(context, btnSymptomTextColor),
+  ),
+  tablet: (context) => TextStyle(
+    fontSize: 36,
+    color: Colors.white,
+  ),
+  desktop: (context) => TextStyle(
+    fontSize: 48,
+    color: Colors.white,
+  ),
+);
+
+class ResponsiveBreakpoint<T> {
+  final Function phone;
+  final Function tablet;
+  final Function desktop;
+  T? find(BuildContext context) {
+    String name = DeviceConfig.widthBreakpointName!;
+    switch (name) {
+      case "phone":
+        return phone(context);
+      case "tablet":
+        return tablet(context);
+      case "desktop":
+        return desktop(context);
+    }
+  }
+
+  ResponsiveBreakpoint({required this.phone, required this.tablet, required this.desktop});
+}
+
 class UIColor {
   final Color? light;
   final Color? dark;
@@ -284,33 +336,42 @@ class UILinearGradient {
 }
 
 class Breakpoint {
-  final TextStyle? caseFontSize;
-  final double? height;
-  Breakpoint({required this.caseFontSize, required this.height});
+  final String? breakpoint;
+  final EdgeInsets? appPadding;
+  final double? appMaxWidth;
+  final TextStyle? caseDescriptionFontSize;
+
+  Breakpoint({
+    required this.breakpoint,
+    required this.appPadding,
+    required this.appMaxWidth,
+    required this.caseDescriptionFontSize,
+  });
+  // TextStyle getCaseHeadline3(context) {}
 }
 
-// Map<String, Breakpoint> _breakpoints = {
-//   "xs": Breakpoint(
-//     caseFontSize: TextStyle(fontSize: 14.0),
-//     height: 30,
-//   ),
-//   "sm": Breakpoint(
-//     caseFontSize: TextStyle(fontSize: 14.0),
-//     height: 30,
-//   ),
-//   "md": Breakpoint(
-//     caseFontSize: TextStyle(fontSize: 18.0),
-//     height: 30,
-//   ),
-//   "lg": Breakpoint(
-//     caseFontSize: TextStyle(fontSize: 20.0),
-//     height: 30,
-//   ),
-//   "xl": Breakpoint(
-//     caseFontSize: TextStyle(fontSize: 24.0),
-//     height: 30,
-//   ),
-// };
+//THIS MAY OR MAY NOT BE USED
+Map<String, Breakpoint> _breakpoints = {
+  "phone": Breakpoint(
+    breakpoint: 'Phone',
+    appPadding: EdgeInsets.all(mobilePadding),
+    appMaxWidth: mobileMaxWidth,
+    caseDescriptionFontSize: TextStyle(fontSize: 14.0),
+  ),
+  "tablet": Breakpoint(
+    breakpoint: 'Tablet',
+    appPadding: EdgeInsets.all(tabletPadding),
+    appMaxWidth: tabletMaxWidth,
+    caseDescriptionFontSize: TextStyle(fontSize: 16.0),
+  ),
+  "desktop": Breakpoint(
+    breakpoint: 'Desktop',
+    appPadding: EdgeInsets.all(desktopPadding),
+    appMaxWidth: desktopMaxWidth,
+    caseDescriptionFontSize: TextStyle(fontSize: 18.0),
+  ),
+};
+//END THIS MAY OR MAY NOT BE USED
 
 // DEVICE CONFIG - SCREEN SIZE AND ORIENTATION
 class DeviceConfig {
@@ -319,6 +380,9 @@ class DeviceConfig {
   static Orientation? orientation;
   static bool? isPortrait;
   static bool? isPhone;
+  static bool? isTablet;
+  static bool? isDesktop;
+  //bool? isPhoneWidth;
 
   static double? screenWidth;
   static double? screenHeight;
@@ -331,7 +395,7 @@ class DeviceConfig {
   static String? widthBreakpointName;
   //** IF THERE IS ONLY ONE COLOR/DECORATOR IN THE OBJECT IT WILL HANDLE IT */
 
-  //Breakpoint? getBreakpoint(context) => _breakpoints[widthBreakpointName];
+  Breakpoint? getBreakpoint(context) => _breakpoints[widthBreakpointName];
   //TextStyle? getResponsiveTextStyle(BuildContext context, ResponsiveTextStyle textStyle) => ;
 
   Orientation getScreenOrientation(context) => MediaQuery.of(context).orientation;
@@ -339,6 +403,7 @@ class DeviceConfig {
   double getScreenWidth(context) => MediaQuery.of(context).size.width;
   double getScreenHeight(context) => MediaQuery.of(context).size.height;
   double getIsPhone(context) => MediaQuery.of(context).size.width;
+  double getIsTablet(context) => MediaQuery.of(context).size.width;
 
   Color? getColor(BuildContext context, UIColor color) => isDark(context) ? color.dark : color.light;
   TextStyle? getTextStyle(BuildContext context, UITextStyle textStyle) => isDark(context) ? textStyle.dark : textStyle.light;
@@ -353,6 +418,14 @@ class DeviceConfig {
   LinearGradient? getLinearGradient(BuildContext context, UILinearGradient linearGradient) =>
       isDark(context) ? linearGradient.dark : linearGradient.light;
 
+// NOT USED
+  // TextStyle? getResponsiveTextStyle(BuildContext context, ResponsiveTextStyle textStyle) => isPhone!
+  //     ? textStyle.phone
+  //     : isTablet!
+  //         ? textStyle.tablet
+  //         : textStyle.desktop;
+
+  bool isPhoneWidth(BuildContext context) => MediaQuery.of(context).size.width < 600;
   bool isDark(BuildContext context) => MediaQuery.of(context).platformBrightness == Brightness.dark;
 
   void init(BuildContext context) {
@@ -367,17 +440,18 @@ class DeviceConfig {
     blockSizeHorizontal = screenWidth! / 100;
     blockSizeVertical = screenHeight! / 100;
 
-    isPhone = screenWidth! < 600;
-
+//THIS MAY OR MAY NOT BE USED
     List<List> widthBreakpoints = [
-      ["xs", 275],
-      ["sm", 375],
-      ["md", 675],
-      ["lg", 1075],
-      ["xl", 1275]
+      ["phone", 0],
+      ["tablet", 700],
+      ["desktop", 1025]
     ];
     widthBreakpointName =
         (widthBreakpoints.reversed.firstWhere((kv) => kv[1] <= screenWidth, orElse: () => widthBreakpoints[0]))[0];
+
+    isPhone = widthBreakpointName == 'phone';
+
+//END THIS MAY OR MAY NOT BE USED
 
     //** PROPERTIES FOR SYSTEM BRIGHNTESS MODE (LIGHT/DARK) */
     brightnessValue = MediaQuery.of(context).platformBrightness;

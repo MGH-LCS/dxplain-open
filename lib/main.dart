@@ -36,6 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     DeviceConfig().init(context);
+    Breakpoint responsive = DeviceConfig().getBreakpoint(context)!;
 
     return Scaffold(
       appBar: AppBar(
@@ -54,26 +55,33 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: DeviceConfig().getColor(context, menuIconColor),
               ))
         ],
-        title: SizedBox(
-          height: 40,
-          width: 130,
-          child: SvgPicture.asset(
-            "assets/images/DXplain-Open-Logo.svg",
-            matchTextDirection: false,
-          ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              height: 40,
+              width: 130,
+              child: SvgPicture.asset(
+                "assets/images/DXplain-Open-Logo.svg",
+                matchTextDirection: false,
+              ),
+            ),
+            Text(
+              responsive.breakpoint.toString() + " " + DeviceConfig.screenWidth.toString(),
+              style: TextStyle(color: Colors.green, fontSize: 10),
+            ),
+          ],
         ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(DeviceConfig.isPhone! ? mobilePadding : desktopPadding * 2),
+            padding: responsive.appPadding!,
             child: Center(
               child: Column(
-                // mainAxisAlignment: DeviceConfig.isPhone! ? MainAxisAlignment.start : MainAxisAlignment.start,
-                // crossAxisAlignment: DeviceConfig.isPhone! ? CrossAxisAlignment.start : CrossAxisAlignment.center,
                 children: [
                   SizedBox(
-                    width: DeviceConfig.isPhone! ? mobileMaxWidth : desktopMaxWidth,
+                    width: responsive.appMaxWidth,
                     child: Column(
                       children: [
                         CaseCard(),
@@ -229,6 +237,10 @@ class SymptomButton extends StatelessWidget {
       height: DeviceConfig.isPhone! ? mobileSymptomButtonHeight : desktopSymptomButtonHeight,
       child: OutlinedButton(
         onPressed: () {},
+        //The button has 3 styles,
+        // off = the user has not yet selected a symptom
+        // present = the user selected the symptom's button and the symptom is present in the case
+        // absent = the user selected the symptom's button and the symptom is absent in the case
         style: buttonState == 'off'
             ? DeviceConfig().geButtonStyle(context, symptomButtonOff)
             : (buttonState == 'present'
@@ -350,7 +362,7 @@ class CaseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //Breakpoint _breakpoint = DeviceConfig().getBreakpoint(context)!;
+    Breakpoint responsive = DeviceConfig().getBreakpoint(context)!;
     return Card(
       margin: EdgeInsets.zero,
       elevation: cardElevation,
@@ -371,8 +383,8 @@ class CaseCard extends StatelessWidget {
                             padding: const EdgeInsets.only(top: 8.0),
                             child: Column(
                               children: [
-                                Text('HOLE', style: Theme.of(context).textTheme.headline3),
-                                Text('1', style: Theme.of(context).textTheme.headline4?.copyWith(fontSize: 24)),
+                                Text('HOLE', style: cardHoleDetailsHeadline3.find(context)),
+                                Text('1', style: cardHoleDetailsHeadline4.find(context)),
                               ],
                             ),
                           ),
@@ -385,8 +397,8 @@ class CaseCard extends StatelessWidget {
                             padding: const EdgeInsets.only(top: 8.0),
                             child: Column(
                               children: [
-                                Text('PAR', style: Theme.of(context).textTheme.headline3),
-                                Text('8', style: Theme.of(context).textTheme.headline4),
+                                Text('PAR', style: cardHoleDetailsHeadline3.find(context)),
+                                Text('1', style: cardHoleDetailsHeadline4.find(context)),
                               ],
                             ),
                           ),
@@ -403,11 +415,15 @@ class CaseCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text("Jan 1, 2022"),
+                        Text(
+                          "Jan 1, 2022",
+                          style: responsive.caseDescriptionFontSize,
+                        ),
                         SizedBox(height: 10.0),
                         Text(
                           "45 year old female presents with airway compression or obstruction for the past 24 hours",
                           maxLines: 100,
+                          style: responsive.caseDescriptionFontSize,
                         ),
                       ],
                     ),
@@ -430,8 +446,8 @@ class CaseCard extends StatelessWidget {
                             padding: const EdgeInsets.only(top: 8.0),
                             child: Column(
                               children: [
-                                Text('STROKE', style: Theme.of(context).textTheme.headline3),
-                                Text('3', style: Theme.of(context).textTheme.headline4),
+                                Text('STROKE', style: cardHoleDetailsHeadline3.find(context)),
+                                Text('1', style: cardHoleDetailsHeadline4.find(context)),
                               ],
                             ),
                           ),
