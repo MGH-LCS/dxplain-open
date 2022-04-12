@@ -2,7 +2,6 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
 class DXPlainOpenTheme {
@@ -148,6 +147,18 @@ Color? defaultButtonColor = Colors.grey[500];
 ResponsiveTheme appBarIconColor = ResponsiveTheme<Color>(
   light: (context) => CupertinoColors.systemGreen.color,
   dark: (context) => Colors.green[300],
+);
+
+ResponsiveBreakpoint uiAppPadding = ResponsiveBreakpoint<EdgeInsets>(
+  phone: (context) => EdgeInsets.all(mobilePadding),
+  tablet: (context) => EdgeInsets.all(tabletPadding),
+  desktop: (context) => EdgeInsets.all(desktopPadding),
+);
+
+ResponsiveBreakpoint uiAppMaxWidth = ResponsiveBreakpoint(
+  phone: (context) => mobileMaxWidth,
+  tablet: (context) => tabletMaxWidth,
+  desktop: (context) => desktopMaxWidth,
 );
 
 ResponsiveTheme symptomButtonTextColor = ResponsiveTheme<Color>(
@@ -325,12 +336,6 @@ ResponsiveTheme cardStrokeDecoration = ResponsiveTheme<BoxDecoration>(
   ),
 );
 
-// ResponsiveBreakpoint themeTest = ResponsiveBreakpoint<TextStyle>(
-//   phone: (context) => Theme.of(context).textTheme.headline4?.copyWith(fontSize: 16),
-//   tablet: (context) => Theme.of(context).textTheme.headline4?.copyWith(fontSize: 20),
-//   desktop: (context) => Theme.of(context).textTheme.headline4?.copyWith(fontSize: 24),
-// );
-
 // HOLE, PAR, STROKE LABELS
 ResponsiveBreakpoint cardHoleDetailsLabel = ResponsiveBreakpoint<TextStyle>(
   phone: (context) => Theme.of(context).textTheme.headline4?.copyWith(fontSize: 12),
@@ -343,6 +348,12 @@ ResponsiveBreakpoint cardHoleDetailsValue = ResponsiveBreakpoint<TextStyle>(
   phone: (context) => Theme.of(context).textTheme.headline4?.copyWith(fontSize: 24),
   tablet: (context) => Theme.of(context).textTheme.headline4?.copyWith(fontSize: 36),
   desktop: (context) => Theme.of(context).textTheme.headline4?.copyWith(fontSize: 36),
+);
+
+ResponsiveBreakpoint cardHoleCaseDescription = ResponsiveBreakpoint<TextStyle>(
+  phone: (context) => Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 14),
+  tablet: (context) => Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 20),
+  desktop: (context) => Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 26),
 );
 
 class ResponsiveBreakpoint<T> {
@@ -380,154 +391,21 @@ class ResponsiveTheme<T> {
   ResponsiveTheme({required this.light, required this.dark});
 }
 
-// class UIColor {
-//   final Color? light;
-//   final Color? dark;
-//   UIColor({required this.light, required this.dark});
-// }
-
-// class UITextStyle {
-//   final TextStyle? light;
-//   final TextStyle? dark;
-//   UITextStyle({required this.light, required this.dark});
-// }
-
-// class UIButtonStyle {
-//   final ButtonStyle? light;
-//   final ButtonStyle? dark;
-//   UIButtonStyle({required this.light, required this.dark});
-// }
-
-// class UIDecoration {
-//   final Decoration? light;
-//   final Decoration? dark;
-//   UIDecoration({required this.light, required this.dark});
-// }
-
-// class UIBoxDecoration {
-//   final BoxDecoration? light;
-//   final BoxDecoration? dark;
-//   UIBoxDecoration({required this.light, required this.dark});
-// }
-
-// class UIImage {
-//   final AssetImage? light;
-//   final AssetImage? dark;
-//   UIImage({required this.light, required this.dark});
-// }
-
-// class UILinearGradient {
-//   final LinearGradient? light;
-//   final LinearGradient? dark;
-//   UILinearGradient({required this.light, required this.dark});
-// }
-
-class Breakpoint {
-  final String? breakpoint;
-  final EdgeInsets? appPadding;
-  final double? appMaxWidth;
-  final TextStyle? caseDescriptionFontSize;
-
-  Breakpoint({
-    required this.breakpoint,
-    required this.appPadding,
-    required this.appMaxWidth,
-    required this.caseDescriptionFontSize,
-  });
-  // TextStyle getCaseHeadline3(context) {}
-}
-
-//THIS MAY OR MAY NOT BE USED
-Map<String, Breakpoint> _breakpoints = {
-  "phone": Breakpoint(
-    breakpoint: 'Phone',
-    appPadding: EdgeInsets.all(mobilePadding),
-    appMaxWidth: mobileMaxWidth,
-    caseDescriptionFontSize: TextStyle(fontSize: 14.0),
-  ),
-  "tablet": Breakpoint(
-    breakpoint: 'Tablet',
-    appPadding: EdgeInsets.all(tabletPadding),
-    appMaxWidth: tabletMaxWidth,
-    caseDescriptionFontSize: TextStyle(fontSize: 16.0),
-  ),
-  "desktop": Breakpoint(
-    breakpoint: 'Desktop',
-    appPadding: EdgeInsets.all(desktopPadding),
-    appMaxWidth: desktopMaxWidth,
-    caseDescriptionFontSize: TextStyle(fontSize: 18.0),
-  ),
-};
-//END THIS MAY OR MAY NOT BE USED
-
-// DEVICE CONFIG - SCREEN SIZE AND ORIENTATION
+// DEVICE CONFIG - SCREEN SIZE
 class DeviceConfig {
   static MediaQueryData? data;
-
-  static Orientation? orientation;
-  static bool? isPortrait;
-  static bool? isPhone;
-  static bool? isTablet;
-  static bool? isDesktop;
-  //bool? isPhoneWidth;
 
   static double? screenWidth;
   static double? screenHeight;
 
-  static double? blockSizeHorizontal;
-  static double? blockSizeVertical;
-
-  //** PROPERTIES FOR SYSTEM BRIGHNTESS MODE (LIGHT/DARK) */
-  static Brightness? brightnessValue;
   static String? widthBreakpointName;
-  //** IF THERE IS ONLY ONE COLOR/DECORATOR IN THE OBJECT IT WILL HANDLE IT */
-
-  Breakpoint? getBreakpoint(context) => _breakpoints[widthBreakpointName];
-  //TextStyle? getResponsiveTextStyle(BuildContext context, ResponsiveTextStyle textStyle) => ;
-
-  Orientation getScreenOrientation(context) => MediaQuery.of(context).orientation;
-  bool getIsPortrait(context) => MediaQuery.of(context).orientation == Orientation.portrait;
-  double getScreenWidth(context) => MediaQuery.of(context).size.width;
-  double getScreenHeight(context) => MediaQuery.of(context).size.height;
-  double getIsPhone(context) => MediaQuery.of(context).size.width;
-  double getIsTablet(context) => MediaQuery.of(context).size.width;
-
-  //Color? getColor(BuildContext context, UIColor color) => isDark(context) ? color.dark : color.light;
-  // TextStyle? getTextStyle(BuildContext context, UITextStyle textStyle) => isDark(context) ? textStyle.dark : textStyle.light;
-  // ButtonStyle? geButtonStyle(BuildContext context, UIButtonStyle buttonStyle) =>
-  //     isDark(context) ? buttonStyle.dark : buttonStyle.light;
-
-  // Decoration? getDecoration(BuildContext context, UIDecoration decoration) =>
-  //     isDark(context) ? decoration.dark : decoration.light;
-  // BoxDecoration? getBoxDecoration(BuildContext context, UIBoxDecoration decoration) =>
-  //     isDark(context) ? decoration.dark : decoration.light;
-  // AssetImage? getAssetImage(BuildContext context, UIImage assetImage) => isDark(context) ? assetImage.dark : assetImage.light;
-  // LinearGradient? getLinearGradient(BuildContext context, UILinearGradient linearGradient) =>
-  //     isDark(context) ? linearGradient.dark : linearGradient.light;
-
-// NOT USED
-  // TextStyle? getResponsiveTextStyle(BuildContext context, ResponsiveTextStyle textStyle) => isPhone!
-  //     ? textStyle.phone
-  //     : isTablet!
-  //         ? textStyle.tablet
-  //         : textStyle.desktop;
-
-  bool isPhoneWidth(BuildContext context) => MediaQuery.of(context).size.width < 600;
-  bool isDark(BuildContext context) => MediaQuery.of(context).platformBrightness == Brightness.dark;
 
   void init(BuildContext context) {
     data = MediaQuery.of(context);
 
-    orientation = data!.orientation;
-    isPortrait = orientation == Orientation.portrait;
-
     screenWidth = data!.size.width;
     screenHeight = data!.size.height;
 
-    blockSizeHorizontal = screenWidth! / 100;
-    blockSizeVertical = screenHeight! / 100;
-
-//THIS MAY OR MAY NOT BE USED
     List<List> widthBreakpoints = [
       ["phone", 0],
       ["tablet", 700],
@@ -535,12 +413,5 @@ class DeviceConfig {
     ];
     widthBreakpointName =
         (widthBreakpoints.reversed.firstWhere((kv) => kv[1] <= screenWidth, orElse: () => widthBreakpoints[0]))[0];
-
-    isPhone = widthBreakpointName == 'phone';
-
-//END THIS MAY OR MAY NOT BE USED
-
-    //** PROPERTIES FOR SYSTEM BRIGHNTESS MODE (LIGHT/DARK) */
-    brightnessValue = MediaQuery.of(context).platformBrightness;
   }
 }

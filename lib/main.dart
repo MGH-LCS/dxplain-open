@@ -36,7 +36,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     DeviceConfig().init(context);
-    Breakpoint responsive = DeviceConfig().getBreakpoint(context)!;
 
     return Scaffold(
       appBar: AppBar(
@@ -67,8 +66,8 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             Text(
-              responsive.breakpoint.toString() + " " + DeviceConfig.screenWidth.toString(),
-              style: TextStyle(color: Colors.green, fontSize: 10),
+              DeviceConfig.widthBreakpointName!.toUpperCase() + ' ' + DeviceConfig.screenWidth.toString(),
+              style: const TextStyle(color: Colors.green, fontSize: 10),
             ),
           ],
         ),
@@ -76,19 +75,19 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: responsive.appPadding!,
+            padding: uiAppPadding.find(context),
             child: Center(
               child: Column(
                 children: [
                   SizedBox(
-                    width: responsive.appMaxWidth,
+                    width: uiAppMaxWidth.find(context),
                     child: Column(
                       children: [
-                        CaseCard(),
+                        const CaseCard(),
                         SizedBox(height: mobilePadding),
-                        DiagnosisCard(),
+                        const DiagnosisCard(),
                         SizedBox(height: mobilePadding),
-                        SymptomButtons(),
+                        const SymptomButtons(),
                       ],
                     ),
                   ),
@@ -225,15 +224,15 @@ class SymptomButton extends StatelessWidget {
   String stroke;
 
   SymptomButton({
+    Key? key,
     required this.clinicalName,
     required this.definition,
     required this.buttonState,
     required this.stroke,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Breakpoint responsive = DeviceConfig().getBreakpoint(context)!;
     return SizedBox(
       width: symptomButtonWidth.find(context),
       height: symptomButtonHeight.find(context),
@@ -338,7 +337,6 @@ class CaseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Breakpoint responsive = DeviceConfig().getBreakpoint(context)!;
     return Card(
       margin: EdgeInsets.zero,
       elevation: cardElevation,
@@ -352,46 +350,15 @@ class CaseCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Expanded(
-                        child: Container(
-                          decoration: cardHoleDecoration.find(context),
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Column(
-                              children: [
-                                Text(
-                                  'HOLE',
-                                  style: cardHoleDetailsLabel.find(context),
-                                ),
-                                Text(
-                                  '1',
-                                  style: cardHoleDetailsValue.find(context),
-                                )
-                                //Text('1', style: cardHoleDetailsValue.find(context)),
-                              ],
-                            ),
-                          ),
-                        ),
+                      CaseGolfDetail(
+                        label: 'HOLE',
+                        value: 1,
+                        decoration: cardHoleDecoration.find(context),
                       ),
-                      Expanded(
-                        child: Container(
-                          decoration: cardParDecoration.find(context),
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Column(
-                              children: [
-                                Text(
-                                  'PAR',
-                                  style: cardHoleDetailsLabel.find(context),
-                                ),
-                                Text(
-                                  '8',
-                                  style: cardHoleDetailsValue.find(context),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                      CaseGolfDetail(
+                        label: 'PAR',
+                        value: 8,
+                        decoration: cardParDecoration.find(context),
                       ),
                     ],
                   ),
@@ -406,13 +373,13 @@ class CaseCard extends StatelessWidget {
                       children: [
                         Text(
                           "Jan 1, 2022",
-                          style: responsive.caseDescriptionFontSize,
+                          style: cardHoleCaseDescription.find(context),
                         ),
                         SizedBox(height: 10.0),
                         Text(
                           "45 year old female presents with airway compression or obstruction for the past 24 hours",
                           maxLines: 100,
-                          style: responsive.caseDescriptionFontSize,
+                          style: cardHoleCaseDescription.find(context),
                         ),
                       ],
                     ),
@@ -428,25 +395,10 @@ class CaseCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Expanded(
-                        child: Container(
-                          decoration: cardStrokeDecoration.find(context),
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Column(
-                              children: [
-                                Text(
-                                  'STROKE',
-                                  style: cardHoleDetailsLabel.find(context),
-                                ),
-                                Text(
-                                  '1',
-                                  style: cardHoleDetailsValue.find(context),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                      CaseGolfDetail(
+                        label: 'STROKE',
+                        value: 1,
+                        decoration: cardStrokeDecoration.find(context),
                       ),
                     ],
                   ),
@@ -459,7 +411,7 @@ class CaseCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text("Lorem ipsum dolor sit amet, consectetuer "),
+                        Text("The stroke to the green meter goes here"),
                       ],
                     ),
                   ),
@@ -468,6 +420,41 @@ class CaseCard extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class CaseGolfDetail extends StatelessWidget {
+  String label;
+  int value;
+  Decoration decoration;
+  CaseGolfDetail({
+    required this.label,
+    required this.value,
+    required this.decoration,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Container(
+        decoration: decoration,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Column(
+            children: [
+              Text(
+                label,
+                style: cardHoleDetailsLabel.find(context),
+              ),
+              Text(
+                value.toString(),
+                style: cardHoleDetailsValue.find(context),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
