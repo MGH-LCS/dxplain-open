@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
 class DXPlainOpenTheme {
@@ -20,8 +21,8 @@ class DXPlainOpenTheme {
       primaryColor: Colors.green[700],
       textTheme: TextTheme(
         overline: TextStyle(fontSize: 14.0, letterSpacing: 0, fontWeight: FontWeight.w500, color: Colors.green[700]),
-        headline3: TextStyle(color: Colors.white, fontSize: 12),
-        headline4: TextStyle(color: Colors.white, fontSize: 24),
+        headline3: TextStyle(color: Colors.white),
+        headline4: TextStyle(color: Colors.white),
       ),
       scaffoldBackgroundColor: Colors.white,
       inputDecorationTheme: InputDecorationTheme(
@@ -63,8 +64,8 @@ class DXPlainOpenTheme {
       primaryColor: Colors.blue[700],
       textTheme: TextTheme(
         overline: TextStyle(fontSize: 14.0, letterSpacing: 0, fontWeight: FontWeight.w500, color: Colors.green[700]),
-        headline3: TextStyle(color: Colors.white, fontSize: 12),
-        headline4: TextStyle(color: Colors.white, fontSize: 24),
+        headline3: TextStyle(color: Colors.white),
+        headline4: TextStyle(color: Colors.white),
       ),
       scaffoldBackgroundColor: Colors.grey[900],
       inputDecorationTheme: InputDecorationTheme(
@@ -108,24 +109,34 @@ double cardElevation = 0;
 //MOBILE SIZES
 double mobileSymptomButtonWidth = (mobileMaxWidth / 2) - mobilePadding;
 double mobileSymptomButtonHeight = 45;
+double mobileSymptomButtonSpacing = 8;
 double mobileSymptomButtonRunSpacing = 8;
-double mobileSymptomTextSize = 14;
-double mobileSymptomTextMinSize = 8;
+double mobileSymptomButtonTextSize = 14;
+double mobileSymptomButtonTextMinSize = 8;
 int mobileSymptomTextMaxLines = 3;
 double mobileSymptomDefinitionButtonSize = mobileSymptomButtonHeight;
+
+//Tablet Sizes
+double tabletSymptomButtonWidth = (tabletMaxWidth / 2) - tabletPadding;
+double tabletSymptomButtonHeight = 65;
+double tabletSymptomButtonSpacing = 12;
+double tabletSymptomButtonRunSpacing = 12;
+double tabletSymptomButtonTextSize = 16;
+double tabletSymptomButtonTextMinSize = 10;
+int tabletSymptomTextMaxLines = 3;
+double tabletSymptomDefinitionButtonSize = tabletSymptomButtonHeight;
 
 //DESKTOP SIZES
 double desktopSymptomButtonWidth = ((desktopMaxWidth - (desktopPadding / 2)) / 2);
 double desktopSymptomButtonHeight = 65;
-double desktopSymptomButtonRunSpacing = 8;
-double desktopSymptomTextSize = 14;
-double desktopSymptomTextMinSize = 10;
+double desktopSymptomButtonSpacing = 16;
+double desktopSymptomButtonRunSpacing = 16;
+double desktopSymptomButtonTextSize = 16;
+double desktopSymptomButtonTextMinSize = 10;
 int desktopSymptomTextMaxLines = 4;
 double desktopSymptomDefinitionButtonSize = desktopSymptomButtonHeight;
 
-//UIColor btnSymptomBgColor = UIColor(light: Colors.grey[400], dark: Colors.grey[800]);
-UIColor btnSymptomTextColor = UIColor(light: Colors.white, dark: Colors.white);
-UIColor btnSymptomDefinitionIconColor = UIColor(light: Colors.white.withOpacity(.5), dark: Colors.white.withOpacity(.5));
+// SYMPTOM BUTTON THEMES
 
 // COLORS
 Color? dxplainOpenColor = CupertinoColors.systemGreen.color;
@@ -134,144 +145,204 @@ Color? dangerColor = Colors.red[600];
 
 Color? defaultButtonColor = Colors.grey[500];
 
-UIColor divDividerColor = UIColor(light: Colors.grey[400], dark: Colors.grey[300]);
-UIColor menuIconColor = UIColor(light: CupertinoColors.systemGreen.color, dark: Colors.green[300]);
+ResponsiveTheme appBarIconColor = ResponsiveTheme<Color>(
+  light: (context) => CupertinoColors.systemGreen.color,
+  dark: (context) => Colors.green[300],
+);
 
-// UIDecoration cardHoleDecoration = UIDecoration(light: cardDecoration, dark: cardDecoration);
+ResponsiveTheme symptomButtonTextColor = ResponsiveTheme<Color>(
+  light: (context) => Colors.white,
+  dark: (context) => Colors.white,
+);
 
-// COLORS AND DECORATIONS FOR THE CASE CARD
+ResponsiveTheme symptomButtonDefinitionIconColor = ResponsiveTheme<Color>(
+  light: (context) => Colors.white.withOpacity(.5),
+  dark: (context) => Colors.white.withOpacity(.5),
+);
 
-UIColor cardCaption = UIColor(light: Colors.white, dark: Colors.white);
-UIColor cardHeadline = UIColor(light: Colors.white, dark: Colors.white);
+// **** COLORS AND DECORATIONS FOR THE CASE CARD ************************************************************************** //
 
 // **** SYMPTOM BUTTON STYLES ************************************************************************** //
-UIButtonStyle symptomButtonOff = UIButtonStyle(
-  light: ButtonStyle(
+ResponsiveBreakpoint symptomButtonHeight = ResponsiveBreakpoint(
+  phone: (context) => mobileSymptomButtonHeight,
+  tablet: (context) => tabletSymptomButtonHeight,
+  desktop: (context) => desktopSymptomButtonHeight,
+);
+
+ResponsiveBreakpoint symptomButtonWidth = ResponsiveBreakpoint(
+  phone: (context) => mobileSymptomButtonWidth,
+  tablet: (context) => tabletSymptomButtonWidth,
+  desktop: (context) => desktopSymptomButtonWidth,
+);
+
+ResponsiveBreakpoint symptomButtonSpacing = ResponsiveBreakpoint(
+  phone: (context) => mobileSymptomButtonSpacing,
+  tablet: (context) => tabletSymptomButtonSpacing,
+  desktop: (context) => desktopSymptomButtonSpacing,
+);
+
+ResponsiveBreakpoint symptomButtonRunSpacing = ResponsiveBreakpoint(
+  phone: (context) => mobileSymptomButtonRunSpacing,
+  tablet: (context) => tabletSymptomButtonRunSpacing,
+  desktop: (context) => desktopSymptomButtonRunSpacing,
+);
+
+ResponsiveBreakpoint symptomButtonShape = ResponsiveBreakpoint<RoundedRectangleBorder>(
+  phone: (context) => RoundedRectangleBorder(borderRadius: BorderRadius.circular(symptomButtonHeight.find(context))),
+  tablet: (context) => RoundedRectangleBorder(borderRadius: BorderRadius.circular(symptomButtonHeight.find(context))),
+  desktop: (context) => RoundedRectangleBorder(borderRadius: BorderRadius.circular(symptomButtonHeight.find(context))),
+);
+
+ResponsiveBreakpoint symptomButtonPadding = ResponsiveBreakpoint<EdgeInsets>(
+  phone: (context) => EdgeInsets.all(0),
+  tablet: (context) => EdgeInsets.all(0),
+  desktop: (context) => EdgeInsets.all(0),
+);
+
+// WHEN SYMPTOM BUTTON IS OFF
+ResponsiveTheme symptomButtonOff = ResponsiveTheme<ButtonStyle>(
+  light: (context) => ButtonStyle(
     backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
-    padding: MaterialStateProperty.all(EdgeInsets.all(0)),
-    shape: MaterialStateProperty.all(
-      RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(DeviceConfig.isPhone! ? mobileSymptomButtonHeight : desktopSymptomButtonHeight),
-      ),
-    ),
+    padding: MaterialStateProperty.all(symptomButtonPadding.find(context)),
+    shape: MaterialStateProperty.all(symptomButtonShape.find(context)),
   ),
-  dark: ButtonStyle(
+  dark: (context) => ButtonStyle(
     backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
-    padding: MaterialStateProperty.all(EdgeInsets.all(0)),
-    shape: MaterialStateProperty.all(
-      RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(DeviceConfig.isPhone! ? mobileSymptomButtonHeight : desktopSymptomButtonHeight),
-      ),
-    ),
+    padding: MaterialStateProperty.all(symptomButtonPadding.find(context)),
+    shape: MaterialStateProperty.all(symptomButtonShape.find(context)),
   ),
 );
 
-UIButtonStyle symptomButtonPresent = UIButtonStyle(
-  light: ButtonStyle(
+// WHEN SYMPTOM BUTTON IS ACTIVE AND SYMPTOM IS PRESENT
+ResponsiveTheme symptomButtonPresent = ResponsiveTheme<ButtonStyle>(
+  light: (context) => ButtonStyle(
     backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
-    padding: MaterialStateProperty.all(EdgeInsets.all(0)),
-    shape: MaterialStateProperty.all(
-      RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(DeviceConfig.isPhone! ? mobileSymptomButtonHeight : desktopSymptomButtonHeight),
-      ),
-    ),
+    padding: MaterialStateProperty.all(symptomButtonPadding.find(context)),
+    shape: MaterialStateProperty.all(symptomButtonShape.find(context)),
   ),
-  dark: ButtonStyle(
+  dark: (context) => ButtonStyle(
     backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
-    padding: MaterialStateProperty.all(EdgeInsets.all(0)),
-    shape: MaterialStateProperty.all(
-      RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(DeviceConfig.isPhone! ? mobileSymptomButtonHeight : desktopSymptomButtonHeight),
-      ),
-    ),
+    padding: MaterialStateProperty.all(symptomButtonPadding.find(context)),
+    shape: MaterialStateProperty.all(symptomButtonShape.find(context)),
   ),
 );
 
-UIButtonStyle symptomButtonAbsent = UIButtonStyle(
-  light: ButtonStyle(
+// WHEN SYMPTOM BUTTON IS ACTIVE AND SYMPTOM IS ABSENT
+ResponsiveTheme symptomButtonAbsent = ResponsiveTheme<ButtonStyle>(
+  light: (context) => ButtonStyle(
     backgroundColor: MaterialStateProperty.all<Color>(Colors.pink[600]!),
-    padding: MaterialStateProperty.all(EdgeInsets.all(0)),
-    shape: MaterialStateProperty.all(
-      RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(DeviceConfig.isPhone! ? mobileSymptomButtonHeight : desktopSymptomButtonHeight),
-      ),
-    ),
+    padding: MaterialStateProperty.all(symptomButtonPadding.find(context)),
+    shape: MaterialStateProperty.all(symptomButtonShape.find(context)),
   ),
-  dark: ButtonStyle(
+  dark: (context) => ButtonStyle(
     backgroundColor: MaterialStateProperty.all<Color>(Colors.pink[600]!),
-    padding: MaterialStateProperty.all(EdgeInsets.all(0)),
-    shape: MaterialStateProperty.all(
-      RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(DeviceConfig.isPhone! ? mobileSymptomButtonHeight : desktopSymptomButtonHeight),
-      ),
-    ),
+    padding: MaterialStateProperty.all(symptomButtonPadding.find(context)),
+    shape: MaterialStateProperty.all(symptomButtonShape.find(context)),
   ),
 );
+
+// SYMPTOM BUTTON TEXT STYLES
+ResponsiveBreakpoint symptomButtonTextStyle = ResponsiveBreakpoint<TextStyle>(
+  phone: (context) => TextStyle(color: symptomButtonTextColor.find(context), fontSize: mobileSymptomButtonTextSize),
+  tablet: (context) => TextStyle(color: symptomButtonTextColor.find(context), fontSize: tabletSymptomButtonTextSize),
+  desktop: (context) => TextStyle(color: symptomButtonTextColor.find(context), fontSize: desktopSymptomButtonTextSize),
+);
+
+// THE TEXT OF THE SYMPTOM BUTTON IS USING A PACKAGE CALLED AutoSizeText
+// THE TEXT SIZE CAN BE REDUCED BASED ON THE LENGTH OF THE SYMPTOM CLINICAL NAME
+ResponsiveBreakpoint symptomButtonTextMinSize = ResponsiveBreakpoint(
+  phone: (context) => mobileSymptomButtonTextMinSize,
+  tablet: (context) => tabletSymptomButtonTextMinSize,
+  desktop: (context) => desktopSymptomButtonTextMinSize,
+);
+
+ResponsiveBreakpoint symptomButtonTextMaxLines = ResponsiveBreakpoint(
+  phone: (context) => mobileSymptomTextMaxLines,
+  tablet: (context) => tabletSymptomTextMaxLines,
+  desktop: (context) => desktopSymptomTextMaxLines,
+);
+
+// THE CONSTRAINTS ON THE LIGHTBULB ICON AT THE RIGHT OF THE SYMPTOM BUTTONS
+ResponsiveBreakpoint symptomButtonDefinitionConstraints = ResponsiveBreakpoint<BoxConstraints>(
+  phone: (context) => BoxConstraints(
+    maxHeight: symptomButtonHeight.find(context),
+    maxWidth: symptomButtonHeight.find(context),
+    minHeight: symptomButtonHeight.find(context),
+    minWidth: symptomButtonHeight.find(context),
+  ),
+  tablet: (context) => BoxConstraints(
+    maxHeight: symptomButtonHeight.find(context),
+    maxWidth: symptomButtonHeight.find(context),
+    minHeight: symptomButtonHeight.find(context),
+    minWidth: symptomButtonHeight.find(context),
+  ),
+  desktop: (context) => BoxConstraints(
+    maxHeight: symptomButtonHeight.find(context),
+    maxWidth: symptomButtonHeight.find(context),
+    minHeight: symptomButtonHeight.find(context),
+    minWidth: symptomButtonHeight.find(context),
+  ),
+);
+
 // ****  END SYMPTOM BUTTON STYLES ********************************************************************** //
 
-UIBoxDecoration cardHoleDecoration = UIBoxDecoration(
-  light: BoxDecoration(
+// HOLE CARD DECORATIONS AND THEMES
+// HOLE
+ResponsiveTheme cardHoleDecoration = ResponsiveTheme<BoxDecoration>(
+  light: (context) => BoxDecoration(
     borderRadius: BorderRadius.only(topLeft: Radius.circular(appBorderRadius)),
     border: Border.all(color: Colors.green[400]!),
     color: Colors.green[400],
   ),
-  dark: BoxDecoration(
+  dark: (context) => BoxDecoration(
     borderRadius: BorderRadius.only(topLeft: Radius.circular(appBorderRadius)),
     border: Border.all(color: Colors.green[400]!),
     color: Colors.green[400],
   ),
 );
 
-UIBoxDecoration cardParDecoration = UIBoxDecoration(
-  light: BoxDecoration(
+// PAR
+ResponsiveTheme cardParDecoration = ResponsiveTheme<BoxDecoration>(
+  light: (context) => BoxDecoration(
     color: Colors.green[600],
   ),
-  dark: BoxDecoration(
+  dark: (context) => BoxDecoration(
     color: Colors.green[600],
   ),
 );
 
-UIBoxDecoration cardStrokeDecoration = UIBoxDecoration(
-  light: BoxDecoration(
+//STROKE COUNTER
+ResponsiveTheme cardStrokeDecoration = ResponsiveTheme<BoxDecoration>(
+  light: (context) => BoxDecoration(
     borderRadius: BorderRadius.only(bottomLeft: Radius.circular(appBorderRadius)),
     border: Border.all(color: Colors.green[800]!),
     color: Colors.green[800],
   ),
-  dark: BoxDecoration(
+  dark: (context) => BoxDecoration(
     borderRadius: BorderRadius.only(bottomLeft: Radius.circular(appBorderRadius)),
     border: Border.all(color: Colors.green[800]!),
     color: Colors.green[800],
   ),
 );
 
-ResponsiveBreakpoint cardHoleDetailsHeadline3 = ResponsiveBreakpoint<TextStyle>(
-  phone: (context) => TextStyle(
-    fontSize: 12,
-    color: Colors.white,
-  ),
-  tablet: (context) => TextStyle(
-    fontSize: 14,
-    color: Colors.white,
-  ),
-  desktop: (context) => TextStyle(
-    fontSize: 16,
-    color: Colors.white,
-  ),
+// ResponsiveBreakpoint themeTest = ResponsiveBreakpoint<TextStyle>(
+//   phone: (context) => Theme.of(context).textTheme.headline4?.copyWith(fontSize: 16),
+//   tablet: (context) => Theme.of(context).textTheme.headline4?.copyWith(fontSize: 20),
+//   desktop: (context) => Theme.of(context).textTheme.headline4?.copyWith(fontSize: 24),
+// );
+
+// HOLE, PAR, STROKE LABELS
+ResponsiveBreakpoint cardHoleDetailsLabel = ResponsiveBreakpoint<TextStyle>(
+  phone: (context) => Theme.of(context).textTheme.headline4?.copyWith(fontSize: 12),
+  tablet: (context) => Theme.of(context).textTheme.headline4?.copyWith(fontSize: 14),
+  desktop: (context) => Theme.of(context).textTheme.headline4?.copyWith(fontSize: 16),
 );
 
-ResponsiveBreakpoint cardHoleDetailsHeadline4 = ResponsiveBreakpoint<TextStyle>(
-  phone: (context) => TextStyle(
-    fontSize: 20,
-    color: DeviceConfig().getColor(context, btnSymptomTextColor),
-  ),
-  tablet: (context) => TextStyle(
-    fontSize: 36,
-    color: Colors.white,
-  ),
-  desktop: (context) => TextStyle(
-    fontSize: 48,
-    color: Colors.white,
-  ),
+//HOLE, PAR, STROKE VALUES
+ResponsiveBreakpoint cardHoleDetailsValue = ResponsiveBreakpoint<TextStyle>(
+  phone: (context) => Theme.of(context).textTheme.headline4?.copyWith(fontSize: 24),
+  tablet: (context) => Theme.of(context).textTheme.headline4?.copyWith(fontSize: 36),
+  desktop: (context) => Theme.of(context).textTheme.headline4?.copyWith(fontSize: 36),
 );
 
 class ResponsiveBreakpoint<T> {
@@ -293,47 +364,63 @@ class ResponsiveBreakpoint<T> {
   ResponsiveBreakpoint({required this.phone, required this.tablet, required this.desktop});
 }
 
-class UIColor {
-  final Color? light;
-  final Color? dark;
-  UIColor({required this.light, required this.dark});
+class ResponsiveTheme<T> {
+  final Function light;
+  final Function dark;
+  T? find(BuildContext context) {
+    switch (MediaQuery.of(context).platformBrightness) {
+      case Brightness.dark:
+        return dark(context);
+      case Brightness.light:
+      default:
+        return light(context);
+    }
+  }
+
+  ResponsiveTheme({required this.light, required this.dark});
 }
 
-class UITextStyle {
-  final TextStyle? light;
-  final TextStyle? dark;
-  UITextStyle({required this.light, required this.dark});
-}
+// class UIColor {
+//   final Color? light;
+//   final Color? dark;
+//   UIColor({required this.light, required this.dark});
+// }
 
-class UIButtonStyle {
-  final ButtonStyle? light;
-  final ButtonStyle? dark;
-  UIButtonStyle({required this.light, required this.dark});
-}
+// class UITextStyle {
+//   final TextStyle? light;
+//   final TextStyle? dark;
+//   UITextStyle({required this.light, required this.dark});
+// }
 
-class UIDecoration {
-  final Decoration? light;
-  final Decoration? dark;
-  UIDecoration({required this.light, required this.dark});
-}
+// class UIButtonStyle {
+//   final ButtonStyle? light;
+//   final ButtonStyle? dark;
+//   UIButtonStyle({required this.light, required this.dark});
+// }
 
-class UIBoxDecoration {
-  final BoxDecoration? light;
-  final BoxDecoration? dark;
-  UIBoxDecoration({required this.light, required this.dark});
-}
+// class UIDecoration {
+//   final Decoration? light;
+//   final Decoration? dark;
+//   UIDecoration({required this.light, required this.dark});
+// }
 
-class UIImage {
-  final AssetImage? light;
-  final AssetImage? dark;
-  UIImage({required this.light, required this.dark});
-}
+// class UIBoxDecoration {
+//   final BoxDecoration? light;
+//   final BoxDecoration? dark;
+//   UIBoxDecoration({required this.light, required this.dark});
+// }
 
-class UILinearGradient {
-  final LinearGradient? light;
-  final LinearGradient? dark;
-  UILinearGradient({required this.light, required this.dark});
-}
+// class UIImage {
+//   final AssetImage? light;
+//   final AssetImage? dark;
+//   UIImage({required this.light, required this.dark});
+// }
+
+// class UILinearGradient {
+//   final LinearGradient? light;
+//   final LinearGradient? dark;
+//   UILinearGradient({required this.light, required this.dark});
+// }
 
 class Breakpoint {
   final String? breakpoint;
@@ -405,18 +492,18 @@ class DeviceConfig {
   double getIsPhone(context) => MediaQuery.of(context).size.width;
   double getIsTablet(context) => MediaQuery.of(context).size.width;
 
-  Color? getColor(BuildContext context, UIColor color) => isDark(context) ? color.dark : color.light;
-  TextStyle? getTextStyle(BuildContext context, UITextStyle textStyle) => isDark(context) ? textStyle.dark : textStyle.light;
-  ButtonStyle? geButtonStyle(BuildContext context, UIButtonStyle buttonStyle) =>
-      isDark(context) ? buttonStyle.dark : buttonStyle.light;
+  //Color? getColor(BuildContext context, UIColor color) => isDark(context) ? color.dark : color.light;
+  // TextStyle? getTextStyle(BuildContext context, UITextStyle textStyle) => isDark(context) ? textStyle.dark : textStyle.light;
+  // ButtonStyle? geButtonStyle(BuildContext context, UIButtonStyle buttonStyle) =>
+  //     isDark(context) ? buttonStyle.dark : buttonStyle.light;
 
-  Decoration? getDecoration(BuildContext context, UIDecoration decoration) =>
-      isDark(context) ? decoration.dark : decoration.light;
-  BoxDecoration? getBoxDecoration(BuildContext context, UIBoxDecoration decoration) =>
-      isDark(context) ? decoration.dark : decoration.light;
-  AssetImage? getAssetImage(BuildContext context, UIImage assetImage) => isDark(context) ? assetImage.dark : assetImage.light;
-  LinearGradient? getLinearGradient(BuildContext context, UILinearGradient linearGradient) =>
-      isDark(context) ? linearGradient.dark : linearGradient.light;
+  // Decoration? getDecoration(BuildContext context, UIDecoration decoration) =>
+  //     isDark(context) ? decoration.dark : decoration.light;
+  // BoxDecoration? getBoxDecoration(BuildContext context, UIBoxDecoration decoration) =>
+  //     isDark(context) ? decoration.dark : decoration.light;
+  // AssetImage? getAssetImage(BuildContext context, UIImage assetImage) => isDark(context) ? assetImage.dark : assetImage.light;
+  // LinearGradient? getLinearGradient(BuildContext context, UILinearGradient linearGradient) =>
+  //     isDark(context) ? linearGradient.dark : linearGradient.light;
 
 // NOT USED
   // TextStyle? getResponsiveTextStyle(BuildContext context, ResponsiveTextStyle textStyle) => isPhone!

@@ -44,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
           onPressed: onPressed,
           icon: Icon(
             Icons.menu,
-            color: DeviceConfig().getColor(context, menuIconColor),
+            color: appBarIconColor.find(context),
           ),
         ),
         actions: [
@@ -52,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: onPressed,
               icon: Icon(
                 Icons.help,
-                color: DeviceConfig().getColor(context, menuIconColor),
+                color: appBarIconColor.find(context),
               ))
         ],
         title: Row(
@@ -111,8 +111,8 @@ class SymptomButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Wrap(
-      spacing: 8.0, // gap between adjacent chips
-      runSpacing: DeviceConfig.isPhone! ? mobileSymptomButtonRunSpacing : desktopSymptomButtonRunSpacing, // gap between lines
+      spacing: symptomButtonSpacing.find(context), // gap between adjacent chips
+      runSpacing: symptomButtonRunSpacing.find(context), // gap between lines
       children: <Widget>[
         SymptomButton(
           clinicalName: 'Cough',
@@ -205,7 +205,8 @@ class SymptomButtons extends StatelessWidget {
           stroke: '',
         ),
         SymptomButton(
-          clinicalName: 'glucose intolerance',
+          clinicalName:
+              'Quisque viverra nunc eget dui. Etiam iaculis tincidunt sapien. Aliquam erat volutpat. Mauris sagittis mi suscipit est. Maecenas adipiscing erat vestibulum purus. In scelerisque facilisis risus. In ac erat. Etiam nulla. Donec ut arcu sit amet nisi sollicitudin gravida.',
           definition: '3',
           buttonState: 'off',
           stroke: '',
@@ -232,9 +233,10 @@ class SymptomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Breakpoint responsive = DeviceConfig().getBreakpoint(context)!;
     return SizedBox(
-      width: DeviceConfig.isPhone! ? mobileSymptomButtonWidth : desktopSymptomButtonWidth,
-      height: DeviceConfig.isPhone! ? mobileSymptomButtonHeight : desktopSymptomButtonHeight,
+      width: symptomButtonWidth.find(context),
+      height: symptomButtonHeight.find(context),
       child: OutlinedButton(
         onPressed: () {},
         //The button has 3 styles,
@@ -242,10 +244,8 @@ class SymptomButton extends StatelessWidget {
         // present = the user selected the symptom's button and the symptom is present in the case
         // absent = the user selected the symptom's button and the symptom is absent in the case
         style: buttonState == 'off'
-            ? DeviceConfig().geButtonStyle(context, symptomButtonOff)
-            : (buttonState == 'present'
-                ? DeviceConfig().geButtonStyle(context, symptomButtonPresent)
-                : DeviceConfig().geButtonStyle(context, symptomButtonAbsent)),
+            ? symptomButtonOff.find(context)
+            : (buttonState == 'present' ? symptomButtonPresent.find(context) : symptomButtonAbsent.find(context)),
         child: Padding(
           padding: EdgeInsets.only(left: 16.0, right: definition != '' || stroke != '' ? 0 : 16),
           child: Row(
@@ -256,12 +256,9 @@ class SymptomButton extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 4, bottom: 4),
                   child: AutoSizeText(
                     clinicalName,
-                    style: TextStyle(
-                      fontSize: DeviceConfig.isPhone! ? mobileSymptomTextSize : desktopSymptomTextSize,
-                      color: DeviceConfig().getColor(context, btnSymptomTextColor),
-                    ),
-                    minFontSize: DeviceConfig.isPhone! ? mobileSymptomTextMinSize : desktopSymptomTextMinSize,
-                    maxLines: DeviceConfig.isPhone! ? mobileSymptomTextMaxLines : desktopSymptomTextMaxLines,
+                    style: symptomButtonTextStyle.find(context),
+                    minFontSize: symptomButtonTextMinSize.find(context),
+                    maxLines: symptomButtonTextMaxLines.find(context),
                     wrapWords: false,
                   ),
                 ),
@@ -279,16 +276,8 @@ class SymptomButton extends StatelessWidget {
                       Visibility(
                         visible: definition != '' && stroke == '',
                         child: IconButton(
-                          constraints: BoxConstraints(
-                              maxHeight:
-                                  DeviceConfig.isPhone! ? mobileSymptomDefinitionButtonSize : desktopSymptomDefinitionButtonSize,
-                              maxWidth:
-                                  DeviceConfig.isPhone! ? mobileSymptomDefinitionButtonSize : desktopSymptomDefinitionButtonSize,
-                              minWidth:
-                                  DeviceConfig.isPhone! ? mobileSymptomDefinitionButtonSize : desktopSymptomDefinitionButtonSize,
-                              minHeight:
-                                  DeviceConfig.isPhone! ? mobileSymptomDefinitionButtonSize : desktopSymptomDefinitionButtonSize),
-                          color: DeviceConfig().getColor(context, btnSymptomDefinitionIconColor),
+                          constraints: symptomButtonDefinitionConstraints.find(context),
+                          color: symptomButtonDefinitionIconColor.find(context),
                           icon: const Icon(
                             Icons.lightbulb,
                             size: 20.0,
@@ -299,27 +288,14 @@ class SymptomButton extends StatelessWidget {
                       Visibility(
                         visible: stroke != '',
                         child: Container(
-                            constraints: BoxConstraints(
-                                maxHeight: DeviceConfig.isPhone!
-                                    ? mobileSymptomDefinitionButtonSize
-                                    : desktopSymptomDefinitionButtonSize,
-                                maxWidth: DeviceConfig.isPhone!
-                                    ? mobileSymptomDefinitionButtonSize
-                                    : desktopSymptomDefinitionButtonSize,
-                                minWidth: DeviceConfig.isPhone!
-                                    ? mobileSymptomDefinitionButtonSize
-                                    : desktopSymptomDefinitionButtonSize,
-                                minHeight: DeviceConfig.isPhone!
-                                    ? mobileSymptomDefinitionButtonSize
-                                    : desktopSymptomDefinitionButtonSize),
-                            child: Center(
-                                child: Text(
+                          constraints: symptomButtonDefinitionConstraints.find(context),
+                          child: Center(
+                            child: Text(
                               stroke,
-                              style: TextStyle(
-                                fontSize: DeviceConfig.isPhone! ? mobileSymptomTextSize : desktopSymptomTextSize,
-                                color: DeviceConfig().getColor(context, btnSymptomTextColor),
-                              ),
-                            ))),
+                              style: symptomButtonTextStyle.find(context),
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -378,13 +354,20 @@ class CaseCard extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Container(
-                          decoration: DeviceConfig().getBoxDecoration(context, cardHoleDecoration),
+                          decoration: cardHoleDecoration.find(context),
                           child: Padding(
                             padding: const EdgeInsets.only(top: 8.0),
                             child: Column(
                               children: [
-                                Text('HOLE', style: cardHoleDetailsHeadline3.find(context)),
-                                Text('1', style: cardHoleDetailsHeadline4.find(context)),
+                                Text(
+                                  'HOLE',
+                                  style: cardHoleDetailsLabel.find(context),
+                                ),
+                                Text(
+                                  '1',
+                                  style: cardHoleDetailsValue.find(context),
+                                )
+                                //Text('1', style: cardHoleDetailsValue.find(context)),
                               ],
                             ),
                           ),
@@ -392,13 +375,19 @@ class CaseCard extends StatelessWidget {
                       ),
                       Expanded(
                         child: Container(
-                          decoration: DeviceConfig().getBoxDecoration(context, cardParDecoration),
+                          decoration: cardParDecoration.find(context),
                           child: Padding(
                             padding: const EdgeInsets.only(top: 8.0),
                             child: Column(
                               children: [
-                                Text('PAR', style: cardHoleDetailsHeadline3.find(context)),
-                                Text('1', style: cardHoleDetailsHeadline4.find(context)),
+                                Text(
+                                  'PAR',
+                                  style: cardHoleDetailsLabel.find(context),
+                                ),
+                                Text(
+                                  '8',
+                                  style: cardHoleDetailsValue.find(context),
+                                ),
                               ],
                             ),
                           ),
@@ -441,13 +430,19 @@ class CaseCard extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Container(
-                          decoration: DeviceConfig().getBoxDecoration(context, cardStrokeDecoration),
+                          decoration: cardStrokeDecoration.find(context),
                           child: Padding(
                             padding: const EdgeInsets.only(top: 8.0),
                             child: Column(
                               children: [
-                                Text('STROKE', style: cardHoleDetailsHeadline3.find(context)),
-                                Text('1', style: cardHoleDetailsHeadline4.find(context)),
+                                Text(
+                                  'STROKE',
+                                  style: cardHoleDetailsLabel.find(context),
+                                ),
+                                Text(
+                                  '1',
+                                  style: cardHoleDetailsValue.find(context),
+                                ),
                               ],
                             ),
                           ),
