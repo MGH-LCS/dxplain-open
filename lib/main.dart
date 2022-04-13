@@ -84,9 +84,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: Column(
                       children: [
                         const CaseCard(),
-                        SizedBox(height: mobilePadding),
+                        SizedBox(height: uiAppSpacing.find(context)),
                         const DiagnosisCard(),
-                        SizedBox(height: mobilePadding),
+                        SizedBox(height: uiAppSpacing.find(context)),
                         const SymptomButtons(),
                       ],
                     ),

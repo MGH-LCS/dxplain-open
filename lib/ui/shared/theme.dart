@@ -89,16 +89,8 @@ class DXPlainOpenTheme {
 }
 
 // SIZE VARIABLES
-double appPadding = 32;
+
 double appBorderRadius = 22.5;
-
-double mobilePadding = 12;
-double tabletPadding = 24;
-double desktopPadding = 36;
-
-double mobileMaxWidth = DeviceConfig.screenWidth! - mobilePadding;
-double tabletMaxWidth = DeviceConfig.screenWidth! - tabletPadding;
-double desktopMaxWidth = DeviceConfig.screenWidth! - (desktopPadding * 8);
 
 double cardElevation = 0;
 
@@ -106,6 +98,9 @@ double cardElevation = 0;
 // Includes both sizes for phones and desktop devices
 
 //MOBILE SIZES
+double mobilePadding = 12;
+double mobileSpacing = 12;
+double mobileMaxWidth = DeviceConfig.screenWidth! - mobilePadding;
 double mobileSymptomButtonWidth = (mobileMaxWidth / 2) - mobilePadding;
 double mobileSymptomButtonHeight = 45;
 double mobileSymptomButtonSpacing = 8;
@@ -116,6 +111,9 @@ int mobileSymptomTextMaxLines = 3;
 double mobileSymptomDefinitionButtonSize = mobileSymptomButtonHeight;
 
 //Tablet Sizes
+double tabletPadding = 24;
+double tabletSpacing = 16;
+double tabletMaxWidth = DeviceConfig.screenWidth! - tabletPadding;
 double tabletSymptomButtonWidth = (tabletMaxWidth / 2) - tabletPadding;
 double tabletSymptomButtonHeight = 65;
 double tabletSymptomButtonSpacing = 12;
@@ -126,6 +124,9 @@ int tabletSymptomTextMaxLines = 3;
 double tabletSymptomDefinitionButtonSize = tabletSymptomButtonHeight;
 
 //DESKTOP SIZES
+double desktopPadding = 36;
+double desktopSpacing = 20;
+double desktopMaxWidth = DeviceConfig.screenWidth! - (desktopPadding * 8);
 double desktopSymptomButtonWidth = ((desktopMaxWidth - (desktopPadding / 2)) / 2);
 double desktopSymptomButtonHeight = 65;
 double desktopSymptomButtonSpacing = 16;
@@ -159,6 +160,12 @@ ResponsiveBreakpoint uiAppMaxWidth = ResponsiveBreakpoint(
   phone: (context) => mobileMaxWidth,
   tablet: (context) => tabletMaxWidth,
   desktop: (context) => desktopMaxWidth,
+);
+
+ResponsiveBreakpoint uiAppSpacing = ResponsiveBreakpoint(
+  phone: (context) => mobileSpacing,
+  tablet: (context) => tabletSpacing,
+  desktop: (context) => desktopSpacing,
 );
 
 ResponsiveTheme symptomButtonTextColor = ResponsiveTheme<Color>(
