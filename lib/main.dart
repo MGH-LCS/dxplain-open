@@ -308,7 +308,8 @@ class SymptomButton extends StatelessWidget {
             ? symptomButtonOff.find(context)
             : (buttonState == 'present' ? symptomButtonPresent.find(context) : symptomButtonAbsent.find(context)),
         child: Padding(
-          padding: EdgeInsets.only(left: 16.0, right: definition != '' || stroke != '' ? 0 : 16),
+          padding:
+              EdgeInsets.only(left: symptomButtonPaddingLeft.find(context), right: definition != '' || stroke != '' ? 0 : 16),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -378,15 +379,9 @@ class DiagnosisCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.zero,
-      elevation: cardElevation,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 8.0),
-        child: TextFormField(
-          decoration: const InputDecoration(hintText: 'Enter your diagnosis', suffixIcon: Icon(Icons.arrow_drop_down)),
-        ),
-      ),
+    return TextFormField(
+      style: const TextStyle(height: 1),
+      decoration: diagnosisDecoration.find(context),
     );
   }
 }
@@ -400,6 +395,7 @@ class CaseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      shape: cardDecoration.find(context),
       margin: EdgeInsets.zero,
       elevation: cardElevation,
       child: Column(

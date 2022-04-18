@@ -41,12 +41,12 @@ class DXPlainOpenTheme {
       //     backgroundColor: MaterialStateProperty.all<Color>(Colors.grey[400]!),
       //   ),
       // ),
-      cardTheme: CardTheme(
-        shape: RoundedRectangleBorder(
-          side: BorderSide(color: Colors.grey[400]!, width: 1.0),
-          borderRadius: BorderRadius.circular(appBorderRadius),
-        ),
-      ),
+      // cardTheme: CardTheme(
+      //   shape: RoundedRectangleBorder(
+      //     side: BorderSide(color: Colors.grey[400]!, width: 1.0),
+      //     borderRadius: BorderRadius.circular(appBorderRadius),
+      //   ),
+      // ),
     );
   }
 
@@ -80,12 +80,12 @@ class DXPlainOpenTheme {
           backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
         ),
       ),
-      cardTheme: CardTheme(
-        shape: RoundedRectangleBorder(
-          side: BorderSide(color: Colors.grey[100]!, width: 1.0),
-          borderRadius: BorderRadius.circular(appBorderRadius),
-        ),
-      ),
+      // cardTheme: CardTheme(
+      //   shape: RoundedRectangleBorder(
+      //     side: BorderSide(color: Colors.grey[100]!, width: 1.0),
+      //     borderRadius: BorderRadius.circular(appBorderRadius),
+      //   ),
+      // ),
     );
   }
 }
@@ -103,10 +103,15 @@ double cardElevation = 0;
 double mobilePadding = 12;
 double mobileSpacing = 12;
 double mobileMaxWidth = DeviceConfig.screenWidth! - mobilePadding;
+double mobileCardBorderRadius = mobileSymptomButtonHeight / 2;
+double mobileDiagnosisContentPaddingVertical = 16;
+double mobileDiagnosisContentPaddingHorizontal = 16;
+double mobileDiagnosisIconPaddingRight = 0;
 double mobileSymptomButtonWidth = (mobileMaxWidth / 2) - mobilePadding;
 double mobileSymptomButtonHeight = 45;
 double mobileSymptomButtonSpacing = 8;
 double mobileSymptomButtonRunSpacing = 8;
+double mobileSymptomButtonPaddingLeft = 16;
 double mobileSymptomButtonTextSize = 14;
 double mobileSymptomButtonTextMinSize = 8;
 int mobileSymptomTextMaxLines = 3;
@@ -122,10 +127,15 @@ double mobileGolfBallStartPositionTop = 22;
 double tabletPadding = 24;
 double tabletSpacing = 16;
 double tabletMaxWidth = DeviceConfig.screenWidth! - tabletPadding;
+double tabletCardBorderRadius = tabletSymptomButtonHeight / 2;
+double tabletDiagnosisContentPaddingVertical = 24;
+double tabletDiagnosisContentPaddingHorizontal = 24;
+double tabletDiagnosisIconPaddingRight = 24;
 double tabletSymptomButtonWidth = (tabletMaxWidth / 2) - tabletPadding;
 double tabletSymptomButtonHeight = 65;
 double tabletSymptomButtonSpacing = 12;
 double tabletSymptomButtonRunSpacing = 12;
+double tabletSymptomButtonPaddingLeft = 28;
 double tabletSymptomButtonTextSize = 16;
 double tabletSymptomButtonTextMinSize = 10;
 int tabletSymptomTextMaxLines = 3;
@@ -141,10 +151,15 @@ double tabletGolfBallStartPositionTop = 48;
 double desktopPadding = 36;
 double desktopSpacing = 20;
 double desktopMaxWidth = 1024 - desktopPadding;
+double desktopCardBorderRadius = desktopSymptomButtonHeight / 2;
+double desktopDiagnosisContentPaddingVertical = 36;
+double desktopDiagnosisContentPaddingHorizontal = 24;
+double desktopDiagnosisIconPaddingRight = 24;
 double desktopSymptomButtonWidth = ((desktopMaxWidth - (desktopPadding / 2)) / 2);
 double desktopSymptomButtonHeight = 75;
 double desktopSymptomButtonSpacing = 16;
 double desktopSymptomButtonRunSpacing = 16;
+double desktopSymptomButtonPaddingLeft = 30;
 double desktopSymptomButtonTextSize = 16;
 double desktopSymptomButtonTextMinSize = 10;
 int desktopSymptomTextMaxLines = 4;
@@ -225,6 +240,12 @@ ResponsiveBreakpoint symptomButtonRunSpacing = ResponsiveBreakpoint(
   desktop: (context) => desktopSymptomButtonRunSpacing,
 );
 
+ResponsiveBreakpoint symptomButtonPaddingLeft = ResponsiveBreakpoint(
+  phone: (context) => mobileSymptomButtonPaddingLeft,
+  tablet: (context) => tabletSymptomButtonPaddingLeft,
+  desktop: (context) => desktopSymptomButtonPaddingLeft,
+);
+
 ResponsiveBreakpoint symptomButtonShape = ResponsiveBreakpoint<RoundedRectangleBorder>(
   phone: (context) => RoundedRectangleBorder(borderRadius: BorderRadius.circular(symptomButtonHeight.find(context))),
   tablet: (context) => RoundedRectangleBorder(borderRadius: BorderRadius.circular(symptomButtonHeight.find(context))),
@@ -235,6 +256,69 @@ ResponsiveBreakpoint symptomButtonPadding = ResponsiveBreakpoint<EdgeInsets>(
   phone: (context) => EdgeInsets.all(0),
   tablet: (context) => EdgeInsets.all(0),
   desktop: (context) => EdgeInsets.all(0),
+);
+
+ResponsiveBreakpoint diagnosisContentPadding = ResponsiveBreakpoint(
+  phone: (context) =>
+      EdgeInsets.symmetric(vertical: mobileDiagnosisContentPaddingVertical, horizontal: mobileDiagnosisContentPaddingHorizontal),
+  tablet: (context) =>
+      EdgeInsets.symmetric(vertical: tabletDiagnosisContentPaddingVertical, horizontal: tabletDiagnosisContentPaddingHorizontal),
+  desktop: (context) => EdgeInsets.symmetric(
+      vertical: desktopDiagnosisContentPaddingVertical, horizontal: desktopDiagnosisContentPaddingHorizontal),
+);
+
+ResponsiveBreakpoint diagnosisIconPaddingRight = ResponsiveBreakpoint(
+  phone: (context) => mobileDiagnosisIconPaddingRight,
+  tablet: (context) => tabletDiagnosisIconPaddingRight,
+  desktop: (context) => desktopDiagnosisIconPaddingRight,
+);
+
+// THE DIAGNOSIS DROPDOWN SELECTOR DECORATOR
+ResponsiveTheme diagnosisDecoration = ResponsiveTheme<InputDecoration>(
+  light: (context) => InputDecoration(
+    contentPadding: diagnosisContentPadding.find(context),
+    filled: true,
+    fillColor: Colors.white,
+    hintText: 'Enter your diagnosis',
+    suffixIcon: Padding(
+      padding: EdgeInsets.only(right: diagnosisIconPaddingRight.find(context)),
+      child: Icon(Icons.arrow_drop_down),
+    ),
+    enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.grey[400]!, width: 1),
+        borderRadius: BorderRadius.circular(cardBorderRadius.find(context))),
+    border: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.grey[100]!, width: 1),
+        borderRadius: BorderRadius.circular(cardBorderRadius.find(context))),
+  ),
+  dark: (context) => InputDecoration(
+    contentPadding: diagnosisContentPadding.find(context),
+    filled: true,
+    fillColor: Colors.grey[800],
+    hintText: 'Enter your diagnosis',
+    suffixIcon: Padding(
+      padding: EdgeInsets.only(right: diagnosisIconPaddingRight.find(context)),
+      child: Icon(Icons.arrow_drop_down),
+    ),
+    enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.grey[400]!, width: 1),
+        borderRadius: BorderRadius.circular(cardBorderRadius.find(context))),
+    border: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.grey[100]!, width: 1),
+        borderRadius: BorderRadius.circular(cardBorderRadius.find(context))),
+  ),
+);
+
+// DECORATOR FOR THE HOLE AND DIAGNOSIS CARD
+ResponsiveTheme cardDecoration = ResponsiveTheme<RoundedRectangleBorder>(
+  light: (context) => RoundedRectangleBorder(
+    side: BorderSide(color: Colors.grey[400]!, width: 1.0),
+    borderRadius: BorderRadius.circular(cardBorderRadius.find(context)),
+  ),
+  dark: (context) => RoundedRectangleBorder(
+    side: BorderSide(color: Colors.grey[400]!, width: 1.0),
+    borderRadius: BorderRadius.circular(cardBorderRadius.find(context)),
+  ),
 );
 
 // WHEN SYMPTOM BUTTON IS OFF
@@ -324,16 +408,22 @@ ResponsiveBreakpoint symptomButtonDefinitionConstraints = ResponsiveBreakpoint<B
 
 // ****  END SYMPTOM BUTTON STYLES ********************************************************************** //
 
+ResponsiveBreakpoint cardBorderRadius = ResponsiveBreakpoint(
+  phone: (context) => mobileCardBorderRadius,
+  tablet: (context) => tabletCardBorderRadius,
+  desktop: (context) => desktopCardBorderRadius,
+);
+
 // HOLE CARD DECORATIONS AND THEMES
 // HOLE
 ResponsiveTheme cardHoleDecoration = ResponsiveTheme<BoxDecoration>(
   light: (context) => BoxDecoration(
-    borderRadius: BorderRadius.only(topLeft: Radius.circular(appBorderRadius)),
+    borderRadius: BorderRadius.only(topLeft: Radius.circular(cardBorderRadius.find(context))),
     border: Border.all(color: Colors.green[400]!),
     color: Colors.green[400],
   ),
   dark: (context) => BoxDecoration(
-    borderRadius: BorderRadius.only(topLeft: Radius.circular(appBorderRadius)),
+    borderRadius: BorderRadius.only(topLeft: Radius.circular(cardBorderRadius.find(context))),
     border: Border.all(color: Colors.green[400]!),
     color: Colors.green[400],
   ),
@@ -352,12 +442,12 @@ ResponsiveTheme cardParDecoration = ResponsiveTheme<BoxDecoration>(
 //STROKE COUNTER
 ResponsiveTheme cardStrokeDecoration = ResponsiveTheme<BoxDecoration>(
   light: (context) => BoxDecoration(
-    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(appBorderRadius)),
+    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(cardBorderRadius.find(context))),
     border: Border.all(color: Colors.green[800]!),
     color: Colors.green[800],
   ),
   dark: (context) => BoxDecoration(
-    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(appBorderRadius)),
+    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(cardBorderRadius.find(context))),
     border: Border.all(color: Colors.green[800]!),
     color: Colors.green[800],
   ),
