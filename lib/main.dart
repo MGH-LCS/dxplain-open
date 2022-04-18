@@ -1,3 +1,4 @@
+import 'package:dxplain_open/ui/shared/font_icons_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:dxplain_open/ui/shared/theme.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -39,20 +40,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: onPressed,
-          icon: Icon(
-            Icons.menu,
-            color: appBarIconColor.find(context),
-          ),
-        ),
-        actions: [
-          IconButton(
-              onPressed: onPressed,
-              icon: Icon(
-                Icons.help,
-                color: appBarIconColor.find(context),
-              ))
+        actions: const [
+          HelpIconButton(),
         ],
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -72,6 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
+      drawer: AppDrawer(),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -96,6 +86,78 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class AppDrawer extends StatelessWidget {
+  const AppDrawer({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      // Add a ListView to the drawer. This ensures the user can scroll
+      // through the options in the drawer if there isn't enough vertical
+      // space to fit everything.
+      child: ListView(
+        // Important: Remove any padding from the ListView.
+        padding: EdgeInsets.zero,
+        children: [
+          const DrawerHeader(
+            decoration: BoxDecoration(
+              color: Colors.green,
+            ),
+            child: Text('DXPlain Open'),
+          ),
+          ListTile(
+            title: const Text('Item 1'),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            title: const Text('Item 2'),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            title: Transform.translate(offset: Globals.SideBarListOffset, child: new Text('DXplain Open')),
+            subtitle: Transform.translate(
+              offset: Globals.SideBarListOffset,
+              child: new Text("version: 0.1"),
+            ),
+            leading: SizedBox(
+              width: 24,
+              height: 24,
+              child: Icon(
+                FontIcons.square_info_solid,
+                size: 18,
+              ),
+            ),
+          ),
+          ListTile(
+            title: Transform.translate(
+                offset: Globals.SideBarListOffset,
+                child: SvgPicture.asset(
+                  "assets/images/mgh-lcs.svg",
+                  height: 24,
+                  alignment: Alignment.topLeft,
+                  color: Colors.green[600],
+                )),
+            leading: SizedBox(
+              width: 24,
+              height: 24,
+              child: Icon(
+                FontIcons.square_code_solid,
+                size: 18,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -345,8 +407,8 @@ class CaseCard extends StatelessWidget {
           IntrinsicHeight(
             child: Row(
               children: [
-                Flexible(
-                  flex: 1,
+                SizedBox(
+                  width: holeDetailsWidth.find(context),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -360,11 +422,16 @@ class CaseCard extends StatelessWidget {
                         value: 8,
                         decoration: cardParDecoration.find(context),
                       ),
+                      CaseGolfDetail(
+                        label: 'STROKE',
+                        value: 1,
+                        decoration: cardStrokeDecoration.find(context),
+                      ),
                     ],
                   ),
                 ),
-                Flexible(
-                  flex: 4,
+                Expanded(
+                  // flex: 5,
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
@@ -381,37 +448,40 @@ class CaseCard extends StatelessWidget {
                           maxLines: 100,
                           style: cardHoleCaseDescription.find(context),
                         ),
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          IntrinsicHeight(
-            child: Row(
-              children: [
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      CaseGolfDetail(
-                        label: 'STROKE',
-                        value: 1,
-                        decoration: cardStrokeDecoration.find(context),
-                      ),
-                    ],
-                  ),
-                ),
-                Flexible(
-                  flex: 4,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(16.0, 16, 16, 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text("The stroke to the green meter goes here"),
+                        SizedBox(height: 10.0),
+                        Center(
+                          child: SizedBox(
+                            width: holeIllustrationWidth.find(context),
+                            height: holeIllustrationHeight.find(context),
+                            child: Stack(
+                              children: <Widget>[
+                                Positioned(
+                                  left: 0,
+                                  top: 0,
+                                  child: SizedBox(
+                                    width: holeIllustrationWidth.find(context),
+                                    height: holeIllustrationHeight.find(context),
+                                    child: SvgPicture.asset(
+                                      "assets/images/Hole-Design-Alpha.svg",
+                                      matchTextDirection: false,
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  left: golfBallStartPositionLeft.find(context),
+                                  top: golfBallStartPositionTop.find(context),
+                                  child: SizedBox(
+                                    width: golfBallDiameter.find(context),
+                                    child: SvgPicture.asset(
+                                      "assets/images/ball.svg",
+                                      matchTextDirection: false,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -441,7 +511,7 @@ class CaseGolfDetail extends StatelessWidget {
       child: Container(
         decoration: decoration,
         child: Padding(
-          padding: const EdgeInsets.only(top: 8.0),
+          padding: const EdgeInsets.only(top: 12.0),
           child: Column(
             children: [
               Text(
@@ -456,6 +526,58 @@ class CaseGolfDetail extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class HelpIconButton extends StatelessWidget {
+  const HelpIconButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+        onPressed: () => showDialog<String>(
+              context: context,
+              builder: (BuildContext context) => HelpWidget(),
+            ),
+        icon: Icon(
+          Icons.help,
+          color: appBarIconColor.find(context),
+        ));
+  }
+}
+
+class HelpWidget extends StatelessWidget {
+  const HelpWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      insetPadding: EdgeInsets.all(24),
+      title: const Text('How To Play'),
+      content: SizedBox(
+        width: uiAppMaxWidth.find(context),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Welcome to DXplain Open'),
+            SizedBox(height: 10.0),
+            Text(
+                'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed eleifend ultricies nisl. Sed mollis, odio dapibus commodo suscipit, nisl massa tempor mi, quis lobortis nulla elit eget pede. Cras mollis nunc eu lectus rutrum tempus. Aenean non nibh ut ligula venenatis dapibus. Sed id felis. Aenean tellus. Cras justo lacus, cursus et, semper at, tempus eu, erat. Aenean ornare. Nulla sollicitudin eros eu massa. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Quisque viverra nunc eget dui. Etiam iaculis tincidunt sapien. Aliquam erat volutpat. Mauris sagittis mi suscipit est. Maecenas adipiscing erat vestibulum purus. In scelerisque facilisis risus. In ac erat. Etiam nulla. Donec ut arcu sit amet nisi sollicitudin gravida.'),
+          ],
+        ),
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () => Navigator.pop(context, 'OK'),
+          child: const Text('OK'),
+        ),
+      ],
     );
   }
 }

@@ -21,6 +21,10 @@ class FontIcons {
   static const _kFontFam = 'FontIcons';
   static const String? _kFontPkg = null;
 
+  static const IconData square_code_solid = IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData circle_question_solid = IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData square_info_solid = IconData(0xe804, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData circle_info_solid = IconData(0xe805, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData mgb = IconData(0xe8b8, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData mgh_lcs = IconData(0xe8f6, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

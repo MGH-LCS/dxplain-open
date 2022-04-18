@@ -10,6 +10,7 @@ class DXPlainOpenTheme {
     return ThemeData(
       appBarTheme: AppBarTheme(
         backgroundColor: Colors.white,
+        foregroundColor: Colors.green,
         // backgroundColor: Colors.green[600],
         centerTitle: false,
         systemOverlayStyle: SystemUiOverlayStyle.dark,
@@ -54,6 +55,7 @@ class DXPlainOpenTheme {
     return ThemeData(
       appBarTheme: AppBarTheme(
         backgroundColor: Colors.black54,
+        foregroundColor: Colors.green,
         centerTitle: false,
         systemOverlayStyle: SystemUiOverlayStyle.light,
         elevation: 1,
@@ -109,6 +111,12 @@ double mobileSymptomButtonTextSize = 14;
 double mobileSymptomButtonTextMinSize = 8;
 int mobileSymptomTextMaxLines = 3;
 double mobileSymptomDefinitionButtonSize = mobileSymptomButtonHeight;
+double mobileHoleIllustrationWidth = 250;
+double mobileHoleIllustrationHeight = 80;
+double mobileHoleDetailsWidth = 65;
+double mobileGolfBallDiameter = 10;
+double mobileGolfBallStartPositionLeft = 6;
+double mobileGolfBallStartPositionTop = 22;
 
 //Tablet Sizes
 double tabletPadding = 24;
@@ -122,19 +130,31 @@ double tabletSymptomButtonTextSize = 16;
 double tabletSymptomButtonTextMinSize = 10;
 int tabletSymptomTextMaxLines = 3;
 double tabletSymptomDefinitionButtonSize = tabletSymptomButtonHeight;
+double tabletHoleIllustrationWidth = 600;
+double tabletHoleIllustrationHeight = 150;
+double tabletHoleDetailsWidth = 120;
+double tabletGolfBallDiameter = 20;
+double tabletGolfBallStartPositionLeft = 15;
+double tabletGolfBallStartPositionTop = 48;
 
 //DESKTOP SIZES
 double desktopPadding = 36;
 double desktopSpacing = 20;
-double desktopMaxWidth = DeviceConfig.screenWidth! - (desktopPadding * 8);
+double desktopMaxWidth = 1024 - desktopPadding;
 double desktopSymptomButtonWidth = ((desktopMaxWidth - (desktopPadding / 2)) / 2);
-double desktopSymptomButtonHeight = 65;
+double desktopSymptomButtonHeight = 75;
 double desktopSymptomButtonSpacing = 16;
 double desktopSymptomButtonRunSpacing = 16;
 double desktopSymptomButtonTextSize = 16;
 double desktopSymptomButtonTextMinSize = 10;
 int desktopSymptomTextMaxLines = 4;
 double desktopSymptomDefinitionButtonSize = desktopSymptomButtonHeight;
+double desktopHoleIllustrationWidth = 600;
+double desktopHoleIllustrationHeight = 150;
+double desktopHoleDetailsWidth = 120;
+double desktopGolfBallDiameter = 20;
+double desktopGolfBallStartPositionLeft = 15;
+double desktopGolfBallStartPositionTop = 48;
 
 // SYMPTOM BUTTON THEMES
 
@@ -146,8 +166,8 @@ Color? dangerColor = Colors.red[600];
 Color? defaultButtonColor = Colors.grey[500];
 
 ResponsiveTheme appBarIconColor = ResponsiveTheme<Color>(
-  light: (context) => CupertinoColors.systemGreen.color,
-  dark: (context) => Colors.green[300],
+  light: (context) => Colors.green,
+  dark: (context) => Colors.green,
 );
 
 ResponsiveBreakpoint uiAppPadding = ResponsiveBreakpoint<EdgeInsets>(
@@ -363,6 +383,42 @@ ResponsiveBreakpoint cardHoleCaseDescription = ResponsiveBreakpoint<TextStyle>(
   desktop: (context) => Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 26),
 );
 
+ResponsiveBreakpoint holeIllustrationWidth = ResponsiveBreakpoint(
+  phone: (context) => mobileHoleIllustrationWidth,
+  tablet: (context) => tabletHoleIllustrationWidth,
+  desktop: (context) => desktopHoleIllustrationWidth,
+);
+
+ResponsiveBreakpoint holeIllustrationHeight = ResponsiveBreakpoint(
+  phone: (context) => mobileHoleIllustrationHeight,
+  tablet: (context) => tabletHoleIllustrationHeight,
+  desktop: (context) => desktopHoleIllustrationHeight,
+);
+
+ResponsiveBreakpoint holeDetailsWidth = ResponsiveBreakpoint(
+  phone: (context) => mobileHoleDetailsWidth,
+  tablet: (context) => tabletHoleDetailsWidth,
+  desktop: (context) => desktopHoleDetailsWidth,
+);
+
+ResponsiveBreakpoint golfBallDiameter = ResponsiveBreakpoint(
+  phone: (context) => mobileGolfBallDiameter,
+  tablet: (context) => tabletGolfBallDiameter,
+  desktop: (context) => desktopGolfBallDiameter,
+);
+
+ResponsiveBreakpoint golfBallStartPositionLeft = ResponsiveBreakpoint(
+  phone: (context) => mobileGolfBallStartPositionLeft,
+  tablet: (context) => tabletGolfBallStartPositionLeft,
+  desktop: (context) => desktopGolfBallStartPositionLeft,
+);
+
+ResponsiveBreakpoint golfBallStartPositionTop = ResponsiveBreakpoint(
+  phone: (context) => mobileGolfBallStartPositionTop,
+  tablet: (context) => tabletGolfBallStartPositionTop,
+  desktop: (context) => desktopGolfBallStartPositionTop,
+);
+
 class ResponsiveBreakpoint<T> {
   final Function phone;
   final Function tablet;
@@ -415,10 +471,17 @@ class DeviceConfig {
 
     List<List> widthBreakpoints = [
       ["phone", 0],
-      ["tablet", 700],
+      ["tablet", 745],
       ["desktop", 1025]
     ];
     widthBreakpointName =
         (widthBreakpoints.reversed.firstWhere((kv) => kv[1] <= screenWidth, orElse: () => widthBreakpoints[0]))[0];
   }
+}
+
+class Globals {
+  static const double xOffset_Sidebar = -14.0;
+  static const Offset SideBarListOffset = (Offset(xOffset_Sidebar, 0));
+  static const double xOffset_BottomSheet = -20.0;
+  static const Offset BottomSheetListOffset = (Offset(xOffset_Sidebar, 0));
 }
