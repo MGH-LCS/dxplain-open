@@ -267,7 +267,7 @@ class SymptomButtons extends StatelessWidget {
         ),
         SymptomButton(
           clinicalName:
-              'Quisque viverra nunc eget dui. Etiam iaculis tincidunt sapien. Aliquam erat volutpat. Mauris sagittis mi suscipit est. Maecenas adipiscing erat vestibulum purus. In scelerisque facilisis risus. In ac erat. Etiam nulla. Donec ut arcu sit amet nisi sollicitudin gravida.',
+              'Donec sodales ante et lorem fringilla, scelerisque varius turpis efficitur. Nulla consequat, risus ac massa nunc.',
           definition: '3',
           buttonState: 'off',
           stroke: '',
