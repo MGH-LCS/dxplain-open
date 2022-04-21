@@ -531,12 +531,46 @@ class GolfHoleState extends StatefulWidget {
 class _GolfHoleState extends State<GolfHoleState> {
   double _left = 0;
   double _top = 0;
+  double _holeWidth = 0;
+  double _holeHeight = 0;
+  double _greenLeft = 0;
+  double _greenTop = 0;
+  double _greenWidth = 0;
+  double _greenHeight = 0;
+  double _cupLeft = 0;
+  double _cupTop = 0;
+  double _cupHeight = 0;
+  double _cupWidth = 0;
+  double _teeToHoleWidth = 0;
+  double _leftBallMovePerStroke = 0;
+  double _topBallMovePerStroke = 0;
+  double _teeToHoleHeight = 0;
+  double _ballDiameter = 0;
+  double _ballTolerance = 0;
 
   @override
   void initState() {
     super.initState();
-    _left = golfHoleLayout.find(context).startLeft;
-    _top = golfHoleLayout.find(context).startTop;
+    _left = golfHoleLayout.find(context).teeLeft;
+    _top = golfHoleLayout.find(context).teeTop;
+    _holeWidth = golfHoleLayout.find(context).width;
+    _holeHeight = golfHoleLayout.find(context).height;
+    _greenLeft = golfHoleLayout.find(context).greenLeft;
+    _greenTop = golfHoleLayout.find(context).greenTop;
+    _greenWidth = golfHoleLayout.find(context).greenWidth;
+    _greenHeight = golfHoleLayout.find(context).greenHeight;
+    _cupLeft = golfHoleLayout.find(context).cupLeft;
+    _cupTop = golfHoleLayout.find(context).cupTop;
+    _cupHeight = golfHoleLayout.find(context).cupHeight;
+    _cupWidth = golfHoleLayout.find(context).cupWidth;
+    _ballDiameter = golfHoleLayout.find(context).ballDiameter;
+    _ballTolerance = golfHoleLayout.find(context).ballTolerance;
+    _teeToHoleWidth = _holeWidth - (_holeWidth - _cupLeft + _left + (_ballDiameter / 2));
+    _leftBallMovePerStroke = (_teeToHoleWidth / 16) + _ballTolerance;
+    _teeToHoleHeight = (_top - (_cupTop + _cupHeight) + _ballDiameter).abs();
+    _topBallMovePerStroke = (_teeToHoleHeight / 16);
+    print("$_holeWidth | $_teeToHoleWidth | $_leftBallMovePerStroke");
+    print("$_holeHeight | $_teeToHoleHeight | $_topBallMovePerStroke");
     widget.symptomStream.listen((kv) {
       symptomChanged(kv);
     });
@@ -545,8 +579,11 @@ class _GolfHoleState extends State<GolfHoleState> {
   void symptomChanged(kv) {
     if (kv?["clicked"] == "1") {
       setState(() {
-        _left = _left + 20;
-        _top = _top + 2;
+        if (_left < _teeToHoleWidth) {
+          _left = _left + _leftBallMovePerStroke;
+          print(_left);
+          _top = _top + _topBallMovePerStroke;
+        }
       });
     }
   }
@@ -555,18 +592,42 @@ class _GolfHoleState extends State<GolfHoleState> {
   Widget build(BuildContext context) {
     return Center(
       child: SizedBox(
-        width: golfHoleLayout.find(context).width,
-        height: golfHoleLayout.find(context).height,
+        width: _holeWidth,
+        height: _holeHeight,
         child: Stack(
           children: <Widget>[
             Positioned(
               left: 0,
               top: 0,
               child: SizedBox(
-                width: golfHoleLayout.find(context).width,
-                height: golfHoleLayout.find(context).height,
+                width: _holeWidth,
+                height: _holeHeight,
                 child: SvgPicture.asset(
                   "assets/images/Hole-Design-Alpha.svg",
+                  matchTextDirection: false,
+                ),
+              ),
+            ),
+            Positioned(
+              left: _greenLeft,
+              top: _greenTop,
+              child: SizedBox(
+                width: golfHoleLayout.find(context).greenWidth,
+                height: golfHoleLayout.find(context).greenHeight,
+                child: SvgPicture.asset(
+                  "assets/images/Hole-Green-Alpha.svg",
+                  matchTextDirection: false,
+                ),
+              ),
+            ),
+            Positioned(
+              left: _cupLeft,
+              top: _cupTop,
+              child: SizedBox(
+                width: golfHoleLayout.find(context).cupWidth,
+                height: golfHoleLayout.find(context).cupHeight,
+                child: SvgPicture.asset(
+                  "assets/images/cup.svg",
                   matchTextDirection: false,
                 ),
               ),
@@ -576,8 +637,6 @@ class _GolfHoleState extends State<GolfHoleState> {
               duration: const Duration(milliseconds: 100),
               left: _left,
               top: _top,
-              // left: golfHoleLayout.find(context).startLeft,
-              // top: golfHoleLayout.find(context).startTop,
             ),
           ],
         ),

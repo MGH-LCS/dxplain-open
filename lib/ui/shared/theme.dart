@@ -114,14 +114,26 @@ double mobileSymptomButtonRunSpacing = 8;
 double mobileSymptomButtonPaddingLeft = 16;
 double mobileSymptomButtonTextSize = 14;
 double mobileSymptomButtonTextMinSize = 7;
-int mobileSymptomTextMaxLines = 4;
 double mobileSymptomDefinitionButtonSize = mobileSymptomButtonHeight;
+int mobileSymptomTextMaxLines = 4;
+
 double mobileHoleIllustrationWidth = 235;
 double mobileHoleIllustrationHeight = 80;
 double mobileHoleDetailsWidth = 65;
 double mobileGolfBallDiameter = 10;
-double mobileGolfBallStartPositionLeft = 6;
-double mobileGolfBallStartPositionTop = 22;
+double mobileGolfBallStartPositionLeft = 5;
+double mobileGolfBallStartPositionTop = 23;
+double mobileGolfBallTolerance = .1;
+
+double mobileGreenPositionLeft = 150;
+double mobileGreenPositionTop = 26;
+double mobileGreenWidth = 74;
+double mobileGreenHeight = 36;
+
+double mobileCupPositionLeft = 209;
+double mobileCupPositionTop = 29;
+double mobileCupWidth = 10;
+double mobileCupHeight = 20;
 
 //Tablet Sizes
 double tabletPadding = 24;
@@ -138,14 +150,26 @@ double tabletSymptomButtonRunSpacing = 12;
 double tabletSymptomButtonPaddingLeft = 28;
 double tabletSymptomButtonTextSize = 16;
 double tabletSymptomButtonTextMinSize = 10;
-int tabletSymptomTextMaxLines = 3;
 double tabletSymptomDefinitionButtonSize = tabletSymptomButtonHeight;
+int tabletSymptomTextMaxLines = 3;
+
 double tabletHoleIllustrationWidth = 600;
 double tabletHoleIllustrationHeight = 150;
 double tabletHoleDetailsWidth = 120;
 double tabletGolfBallDiameter = 20;
 double tabletGolfBallStartPositionLeft = 15;
 double tabletGolfBallStartPositionTop = 48;
+double tabletGolfBallTolerance = .2;
+
+double tabletGreenPositionLeft = 385;
+double tabletGreenPositionTop = 39;
+double tabletGreenWidth = 189;
+double tabletGreenHeight = 93;
+
+double tabletCupPositionLeft = 540;
+double tabletCupPositionTop = 62;
+double tabletCupWidth = 20;
+double tabletCupHeight = 40;
 
 //DESKTOP SIZES
 double desktopPadding = 36;
@@ -162,14 +186,26 @@ double desktopSymptomButtonRunSpacing = 16;
 double desktopSymptomButtonPaddingLeft = 30;
 double desktopSymptomButtonTextSize = 16;
 double desktopSymptomButtonTextMinSize = 10;
-int desktopSymptomTextMaxLines = 4;
 double desktopSymptomDefinitionButtonSize = desktopSymptomButtonHeight;
+int desktopSymptomTextMaxLines = 4;
+
 double desktopHoleIllustrationWidth = 600;
 double desktopHoleIllustrationHeight = 150;
 double desktopHoleDetailsWidth = 120;
 double desktopGolfBallDiameter = 20;
 double desktopGolfBallStartPositionLeft = 15;
 double desktopGolfBallStartPositionTop = 48;
+double desktopGolfBallTolerance = .2;
+
+double desktopGreenPositionLeft = 385;
+double desktopGreenPositionTop = 39;
+double desktopGreenWidth = 189;
+double desktopGreenHeight = 93;
+
+double desktopCupPositionLeft = 540;
+double desktopCupPositionTop = 62;
+double desktopCupWidth = 20;
+double desktopCupHeight = 40;
 
 // SYMPTOM BUTTON THEMES
 
@@ -488,33 +524,86 @@ ResponsiveBreakpoint golfBallDiameter = ResponsiveBreakpoint(
 class GolfHole {
   double width;
   double height;
-  double startLeft;
-  double startTop;
+  double teeLeft;
+  double teeTop;
+  double greenLeft;
+  double greenTop;
+  double greenWidth;
+  double greenHeight;
+  double cupLeft;
+  double cupTop;
+  double cupWidth;
+  double cupHeight;
+  double ballDiameter;
+  double ballTolerance;
 
   GolfHole({
     required this.width,
     required this.height,
-    required this.startLeft,
-    required this.startTop,
+    required this.teeLeft,
+    required this.teeTop,
+    required this.greenLeft,
+    required this.greenTop,
+    required this.greenWidth,
+    required this.greenHeight,
+    required this.cupLeft,
+    required this.cupTop,
+    required this.cupWidth,
+    required this.cupHeight,
+    required this.ballDiameter,
+    required this.ballTolerance,
   });
 }
 
 ResponsiveBreakpoint golfHoleLayout = ResponsiveBreakpoint<GolfHole>(
   phone: (context) => GolfHole(
-      width: mobileHoleIllustrationWidth,
-      height: mobileHoleIllustrationHeight,
-      startLeft: mobileGolfBallStartPositionLeft,
-      startTop: mobileGolfBallStartPositionTop),
+    width: mobileHoleIllustrationWidth,
+    height: mobileHoleIllustrationHeight,
+    teeLeft: mobileGolfBallStartPositionLeft,
+    teeTop: mobileGolfBallStartPositionTop,
+    greenLeft: mobileGreenPositionLeft,
+    greenTop: mobileGreenPositionTop,
+    greenWidth: mobileGreenWidth,
+    greenHeight: mobileGreenHeight,
+    cupLeft: mobileCupPositionLeft,
+    cupTop: mobileCupPositionTop,
+    cupWidth: mobileCupWidth,
+    cupHeight: mobileCupHeight,
+    ballDiameter: mobileGolfBallDiameter,
+    ballTolerance: mobileGolfBallTolerance,
+  ),
   tablet: (context) => GolfHole(
-      width: tabletHoleIllustrationWidth,
-      height: tabletHoleIllustrationHeight,
-      startLeft: tabletGolfBallStartPositionLeft,
-      startTop: tabletGolfBallStartPositionTop),
+    width: tabletHoleIllustrationWidth,
+    height: tabletHoleIllustrationHeight,
+    teeLeft: tabletGolfBallStartPositionLeft,
+    teeTop: tabletGolfBallStartPositionTop,
+    greenLeft: tabletGreenPositionLeft,
+    greenTop: tabletGreenPositionTop,
+    greenWidth: tabletGreenWidth,
+    greenHeight: tabletGreenHeight,
+    cupLeft: tabletCupPositionLeft,
+    cupTop: tabletCupPositionTop,
+    cupWidth: tabletCupWidth,
+    cupHeight: tabletCupHeight,
+    ballDiameter: tabletGolfBallDiameter,
+    ballTolerance: tabletGolfBallTolerance,
+  ),
   desktop: (context) => GolfHole(
-      width: desktopHoleIllustrationWidth,
-      height: desktopHoleIllustrationHeight,
-      startLeft: tabletGolfBallStartPositionLeft,
-      startTop: desktopGolfBallStartPositionTop),
+    width: desktopHoleIllustrationWidth,
+    height: desktopHoleIllustrationHeight,
+    teeLeft: tabletGolfBallStartPositionLeft,
+    teeTop: desktopGolfBallStartPositionTop,
+    greenLeft: desktopGreenPositionLeft,
+    greenTop: desktopGreenPositionTop,
+    greenWidth: desktopGreenWidth,
+    greenHeight: desktopGreenHeight,
+    cupLeft: desktopCupPositionLeft,
+    cupTop: desktopCupPositionTop,
+    cupWidth: desktopCupWidth,
+    cupHeight: desktopCupHeight,
+    ballDiameter: desktopGolfBallDiameter,
+    ballTolerance: desktopGolfBallTolerance,
+  ),
 );
 
 class ResponsiveBreakpoint<T> {
