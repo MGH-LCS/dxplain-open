@@ -73,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     width: uiAppMaxWidth.find(context),
                     child: Column(
                       children: [
-                        const CaseCard(),
+                        CaseCard(),
                         SizedBox(height: uiAppSpacing.find(context)),
                         const DiagnosisCard(),
                         SizedBox(height: uiAppSpacing.find(context)),
@@ -445,39 +445,7 @@ class CaseCard extends StatelessWidget {
                           style: cardHoleCaseDescription.find(context),
                         ),
                         SizedBox(height: 10.0),
-                        Center(
-                          child: SizedBox(
-                            width: holeIllustrationWidth.find(context),
-                            height: holeIllustrationHeight.find(context),
-                            child: Stack(
-                              children: <Widget>[
-                                Positioned(
-                                  left: 0,
-                                  top: 0,
-                                  child: SizedBox(
-                                    width: holeIllustrationWidth.find(context),
-                                    height: holeIllustrationHeight.find(context),
-                                    child: SvgPicture.asset(
-                                      "assets/images/Hole-Design-Alpha.svg",
-                                      matchTextDirection: false,
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  left: golfBallStartPositionLeft.find(context),
-                                  top: golfBallStartPositionTop.find(context),
-                                  child: SizedBox(
-                                    width: golfBallDiameter.find(context),
-                                    child: SvgPicture.asset(
-                                      "assets/images/ball.svg",
-                                      matchTextDirection: false,
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
+                        GolfHoleState(),
                       ],
                     ),
                   ),
@@ -486,6 +454,80 @@ class CaseCard extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class GolfHoleState extends StatefulWidget {
+  const GolfHoleState({Key? key}) : super(key: key);
+  @override
+  _GolfHoleState createState() => _GolfHoleState();
+}
+
+class _GolfHoleState extends State<GolfHoleState> {
+  double _left = mobileGolfBallStartPositionLeft;
+  double _top = mobileGolfBallStartPositionTop;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: SizedBox(
+        width: holeIllustrationWidth.find(context),
+        height: holeIllustrationHeight.find(context),
+        child: Stack(
+          children: <Widget>[
+            Positioned(
+              left: 0,
+              top: 0,
+              child: SizedBox(
+                width: holeIllustrationWidth.find(context),
+                height: holeIllustrationHeight.find(context),
+                child: SvgPicture.asset(
+                  "assets/images/Hole-Design-Alpha.svg",
+                  matchTextDirection: false,
+                ),
+              ),
+            ),
+            RaisedButton(
+              child: const Text('CLICK ME!'),
+              onPressed: () {
+                setState(() {
+                  _left = _left + 20;
+                  _top = _top + 2;
+                });
+              },
+            ),
+            AnimatedPositioned(
+              child: GolfBall(),
+              duration: const Duration(milliseconds: 100),
+              left: _left,
+              top: golfBallStartPositionTop.find(context),
+            ),
+            // Positioned(
+            //   left: golfBallStartPositionLeft.find(context),
+            //   top: golfBallStartPositionTop.find(context),
+            //   child: GolfBall(),
+            // )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class GolfBall extends StatelessWidget {
+  const GolfBall({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: golfBallDiameter.find(context),
+      child: SvgPicture.asset(
+        "assets/images/ball.svg",
+        matchTextDirection: false,
       ),
     );
   }
