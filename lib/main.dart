@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:dxplain_open/ui/shared/font_icons_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:dxplain_open/ui/shared/theme.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 void main() {
@@ -33,6 +36,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   get onPressed => null;
+
+  final StreamController<Map<String, String>> _symptomStream = StreamController<Map<String, String>>.broadcast();
 
   @override
   Widget build(BuildContext context) {
@@ -73,11 +78,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     width: uiAppMaxWidth.find(context),
                     child: Column(
                       children: [
-                        CaseCard(),
+                        CaseCard(symptomStream: _symptomStream.stream),
                         SizedBox(height: uiAppSpacing.find(context)),
                         const DiagnosisCard(),
                         SizedBox(height: uiAppSpacing.find(context)),
-                        const SymptomButtons(),
+                        SymptomButtons(symptomStream: _symptomStream),
                       ],
                     ),
                   ),
@@ -165,7 +170,10 @@ class AppDrawer extends StatelessWidget {
 
 //THIS IS THE LIST OF SYMPTOM BUTTONS
 class SymptomButtons extends StatelessWidget {
-  const SymptomButtons({
+  final StreamController<Map<String, String>> symptomStream;
+
+  SymptomButtons({
+    required this.symptomStream,
     Key? key,
   }) : super(key: key);
 
@@ -180,90 +188,120 @@ class SymptomButtons extends StatelessWidget {
           definition: '',
           buttonState: 'present',
           stroke: '1',
+          stream: symptomStream,
+          payload: {"clicked": "1"},
         ),
         SymptomButton(
           clinicalName: 'dihydrorhodamine assay abnormal',
           definition: '',
           buttonState: 'present',
           stroke: '2',
+          stream: symptomStream,
+          payload: {"clicked": "1"},
         ),
         SymptomButton(
           clinicalName: 'PCR of saliva, stool or CSF positive for Tropheryma whipplei',
           definition: '',
           buttonState: 'off',
           stroke: '',
+          stream: symptomStream,
+          payload: {"clicked": "1"},
         ),
         SymptomButton(
           clinicalName: 'upper extremity muscle weakness, unilateral',
           definition: '3',
           buttonState: 'off',
           stroke: '',
+          stream: symptomStream,
+          payload: {"clicked": "1"},
         ),
         SymptomButton(
           clinicalName: 'toe paresthesia',
           definition: '1',
           buttonState: 'off',
           stroke: '',
+          stream: symptomStream,
+          payload: {"clicked": "1"},
         ),
         SymptomButton(
           clinicalName: 'PAS-positive macrophages on small bowel biopsy',
           definition: '1',
           buttonState: 'off',
           stroke: '',
+          stream: symptomStream,
+          payload: {"clicked": "1"},
         ),
         SymptomButton(
           clinicalName: 'migratory polyarthritis',
           definition: '1',
           buttonState: 'off',
           stroke: '',
+          stream: symptomStream,
+          payload: {"clicked": "1"},
         ),
         SymptomButton(
           clinicalName: 'symptoms improve on gluten-free diet',
           definition: '4',
           buttonState: 'absent',
           stroke: '3',
+          stream: symptomStream,
+          payload: {"clicked": "1"},
         ),
         SymptomButton(
           clinicalName: 'upper extremity pulse decrease with head maneuver or Valsalva',
           definition: '1',
           buttonState: 'off',
           stroke: '',
+          stream: symptomStream,
+          payload: {"clicked": "1"},
         ),
         SymptomButton(
           clinicalName: 'distal symmetric polyneuropathy',
           definition: '1',
           buttonState: 'off',
           stroke: '',
+          stream: symptomStream,
+          payload: {"clicked": "1"},
         ),
         SymptomButton(
           clinicalName: 'finger agnosia',
           definition: '1',
           buttonState: 'off',
           stroke: '',
+          stream: symptomStream,
+          payload: {"clicked": "1"},
         ),
         SymptomButton(
           clinicalName: 'arsenic exposure',
           definition: '3',
           buttonState: 'off',
           stroke: '',
+          stream: symptomStream,
+          payload: {"clicked": "1", "gotcha": "1"},
         ),
         SymptomButton(
           clinicalName: 'nail banding, transverse white',
           definition: '4',
           buttonState: 'off',
           stroke: '',
+          stream: symptomStream,
+          payload: {"clicked": "1"},
         ),
         SymptomButton(
           clinicalName: 'polys',
           definition: '',
           buttonState: 'off',
           stroke: '2',
+          stream: symptomStream,
+          payload: {"clicked": "1"},
         ),
         SymptomButton(
           clinicalName: 'morning stiffness',
           definition: '4',
           buttonState: 'off',
           stroke: '',
+          stream: symptomStream,
+          payload: {"clicked": "1"},
         ),
         SymptomButton(
           clinicalName:
@@ -271,6 +309,8 @@ class SymptomButtons extends StatelessWidget {
           definition: '3',
           buttonState: 'off',
           stroke: '',
+          stream: symptomStream,
+          payload: {"clicked": "1"},
         ),
       ],
     );
@@ -284,6 +324,8 @@ class SymptomButton extends StatelessWidget {
   String definition;
   String buttonState;
   String stroke;
+  StreamController<Map<String, String>> stream;
+  Map<String, String> payload;
 
   SymptomButton({
     Key? key,
@@ -291,6 +333,8 @@ class SymptomButton extends StatelessWidget {
     required this.definition,
     required this.buttonState,
     required this.stroke,
+    required this.stream,
+    required this.payload,
   }) : super(key: key);
 
   @override
@@ -299,7 +343,9 @@ class SymptomButton extends StatelessWidget {
       width: symptomButtonWidth.find(context),
       height: symptomButtonHeight.find(context),
       child: OutlinedButton(
-        onPressed: () {},
+        onPressed: () {
+          stream.add(payload);
+        },
         //The button has 3 styles,
         // off = the user has not yet selected a symptom
         // present = the user selected the symptom's button and the symptom is present in the case
@@ -388,7 +434,10 @@ class DiagnosisCard extends StatelessWidget {
 
 //THIS IS THE CASE CARD THAT APPEARS AT THE VERY TOP OF THE SCREEN
 class CaseCard extends StatelessWidget {
+  final Stream<Map<String, String>> symptomStream;
+
   const CaseCard({
+    required this.symptomStream,
     Key? key,
   }) : super(key: key);
 
@@ -445,7 +494,11 @@ class CaseCard extends StatelessWidget {
                           style: cardHoleCaseDescription.find(context),
                         ),
                         SizedBox(height: 10.0),
-                        GolfHoleState(),
+                        GolfHoleState(
+                          symptomStream: symptomStream,
+                          //left: golfBallStartPositionLeft.find(context),
+                          //top: golfBallStartPositionTop.find(context)
+                        ),
                       ],
                     ),
                   ),
@@ -459,56 +512,73 @@ class CaseCard extends StatelessWidget {
   }
 }
 
+// THIS CONTAINS THE HOLE ILLUSTRATION AND THE GOLF BALL
 class GolfHoleState extends StatefulWidget {
-  const GolfHoleState({Key? key}) : super(key: key);
+  final Stream<Map<String, String>> symptomStream;
+  // final double left;
+  // final double top;
+
+  const GolfHoleState({
+    required this.symptomStream,
+    // required this.left,
+    // required this.top,
+    Key? key,
+  }) : super(key: key);
   @override
   _GolfHoleState createState() => _GolfHoleState();
 }
 
 class _GolfHoleState extends State<GolfHoleState> {
-  double _left = mobileGolfBallStartPositionLeft;
-  double _top = mobileGolfBallStartPositionTop;
+  double _left = 0;
+  double _top = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _left = golfHoleLayout.find(context).startLeft;
+    _top = golfHoleLayout.find(context).startTop;
+    widget.symptomStream.listen((kv) {
+      symptomChanged(kv);
+    });
+  }
+
+  void symptomChanged(kv) {
+    if (kv?["clicked"] == "1") {
+      setState(() {
+        _left = _left + 20;
+        _top = _top + 2;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: SizedBox(
-        width: holeIllustrationWidth.find(context),
-        height: holeIllustrationHeight.find(context),
+        width: golfHoleLayout.find(context).width,
+        height: golfHoleLayout.find(context).height,
         child: Stack(
           children: <Widget>[
             Positioned(
               left: 0,
               top: 0,
               child: SizedBox(
-                width: holeIllustrationWidth.find(context),
-                height: holeIllustrationHeight.find(context),
+                width: golfHoleLayout.find(context).width,
+                height: golfHoleLayout.find(context).height,
                 child: SvgPicture.asset(
                   "assets/images/Hole-Design-Alpha.svg",
                   matchTextDirection: false,
                 ),
               ),
             ),
-            RaisedButton(
-              child: const Text('CLICK ME!'),
-              onPressed: () {
-                setState(() {
-                  _left = _left + 20;
-                  _top = _top + 2;
-                });
-              },
-            ),
             AnimatedPositioned(
               child: GolfBall(),
               duration: const Duration(milliseconds: 100),
               left: _left,
-              top: golfBallStartPositionTop.find(context),
+              top: _top,
+              // left: golfHoleLayout.find(context).startLeft,
+              // top: golfHoleLayout.find(context).startTop,
             ),
-            // Positioned(
-            //   left: golfBallStartPositionLeft.find(context),
-            //   top: golfBallStartPositionTop.find(context),
-            //   child: GolfBall(),
-            // )
           ],
         ),
       ),

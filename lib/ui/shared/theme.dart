@@ -473,18 +473,6 @@ ResponsiveBreakpoint cardHoleCaseDescription = ResponsiveBreakpoint<TextStyle>(
   desktop: (context) => Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 26),
 );
 
-ResponsiveBreakpoint holeIllustrationWidth = ResponsiveBreakpoint(
-  phone: (context) => mobileHoleIllustrationWidth,
-  tablet: (context) => tabletHoleIllustrationWidth,
-  desktop: (context) => desktopHoleIllustrationWidth,
-);
-
-ResponsiveBreakpoint holeIllustrationHeight = ResponsiveBreakpoint(
-  phone: (context) => mobileHoleIllustrationHeight,
-  tablet: (context) => tabletHoleIllustrationHeight,
-  desktop: (context) => desktopHoleIllustrationHeight,
-);
-
 ResponsiveBreakpoint holeDetailsWidth = ResponsiveBreakpoint(
   phone: (context) => mobileHoleDetailsWidth,
   tablet: (context) => tabletHoleDetailsWidth,
@@ -497,16 +485,36 @@ ResponsiveBreakpoint golfBallDiameter = ResponsiveBreakpoint(
   desktop: (context) => desktopGolfBallDiameter,
 );
 
-ResponsiveBreakpoint golfBallStartPositionLeft = ResponsiveBreakpoint(
-  phone: (context) => mobileGolfBallStartPositionLeft,
-  tablet: (context) => tabletGolfBallStartPositionLeft,
-  desktop: (context) => desktopGolfBallStartPositionLeft,
-);
+class GolfHole {
+  double width;
+  double height;
+  double startLeft;
+  double startTop;
 
-ResponsiveBreakpoint golfBallStartPositionTop = ResponsiveBreakpoint(
-  phone: (context) => mobileGolfBallStartPositionTop,
-  tablet: (context) => tabletGolfBallStartPositionTop,
-  desktop: (context) => desktopGolfBallStartPositionTop,
+  GolfHole({
+    required this.width,
+    required this.height,
+    required this.startLeft,
+    required this.startTop,
+  });
+}
+
+ResponsiveBreakpoint golfHoleLayout = ResponsiveBreakpoint<GolfHole>(
+  phone: (context) => GolfHole(
+      width: mobileHoleIllustrationWidth,
+      height: mobileHoleIllustrationHeight,
+      startLeft: mobileGolfBallStartPositionLeft,
+      startTop: mobileGolfBallStartPositionTop),
+  tablet: (context) => GolfHole(
+      width: tabletHoleIllustrationWidth,
+      height: tabletHoleIllustrationHeight,
+      startLeft: tabletGolfBallStartPositionLeft,
+      startTop: tabletGolfBallStartPositionTop),
+  desktop: (context) => GolfHole(
+      width: desktopHoleIllustrationWidth,
+      height: desktopHoleIllustrationHeight,
+      startLeft: tabletGolfBallStartPositionLeft,
+      startTop: desktopGolfBallStartPositionTop),
 );
 
 class ResponsiveBreakpoint<T> {
