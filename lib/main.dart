@@ -529,6 +529,7 @@ class GolfHoleState extends StatefulWidget {
 }
 
 class _GolfHoleState extends State<GolfHoleState> {
+  GolfHole? _layout;
   double _left = 0;
   double _top = 0;
   double _holeWidth = 0;
@@ -551,26 +552,27 @@ class _GolfHoleState extends State<GolfHoleState> {
   @override
   void initState() {
     super.initState();
-    _left = golfHoleLayout.find(context).teeLeft;
-    _top = golfHoleLayout.find(context).teeTop;
-    _holeWidth = golfHoleLayout.find(context).width;
-    _holeHeight = golfHoleLayout.find(context).height;
-    _greenLeft = golfHoleLayout.find(context).greenLeft;
-    _greenTop = golfHoleLayout.find(context).greenTop;
-    _greenWidth = golfHoleLayout.find(context).greenWidth;
-    _greenHeight = golfHoleLayout.find(context).greenHeight;
-    _cupLeft = golfHoleLayout.find(context).cupLeft;
-    _cupTop = golfHoleLayout.find(context).cupTop;
-    _cupHeight = golfHoleLayout.find(context).cupHeight;
-    _cupWidth = golfHoleLayout.find(context).cupWidth;
-    _ballDiameter = golfHoleLayout.find(context).ballDiameter;
-    _ballTolerance = golfHoleLayout.find(context).ballTolerance;
+    _layout = golfHoleLayout.find(context);
+    _left = _layout!.teeLeft;
+    _top = _layout!.teeTop;
+    _holeWidth = _layout!.width;
+    _holeHeight = _layout!.height;
+    _greenLeft = _layout!.greenLeft;
+    _greenTop = _layout!.greenTop;
+    _greenWidth = _layout!.greenWidth;
+    _greenHeight = _layout!.greenHeight;
+    _cupLeft = _layout!.cupLeft;
+    _cupTop = _layout!.cupTop;
+    _cupHeight = _layout!.cupHeight;
+    _cupWidth = _layout!.cupWidth;
+    _ballDiameter = _layout!.ballDiameter;
+    _ballTolerance = _layout!.ballTolerance;
     _teeToHoleWidth = _holeWidth - (_holeWidth - _cupLeft + _left + (_ballDiameter / 2));
     _leftBallMovePerStroke = (_teeToHoleWidth / 16) + _ballTolerance;
     _teeToHoleHeight = (_top - (_cupTop + _cupHeight) + _ballDiameter).abs();
     _topBallMovePerStroke = (_teeToHoleHeight / 16);
-    print("$_holeWidth | $_teeToHoleWidth | $_leftBallMovePerStroke");
-    print("$_holeHeight | $_teeToHoleHeight | $_topBallMovePerStroke");
+    debugPrint("$_holeWidth | $_teeToHoleWidth | $_leftBallMovePerStroke");
+    debugPrint("$_holeHeight | $_teeToHoleHeight | $_topBallMovePerStroke");
     widget.symptomStream.listen((kv) {
       symptomChanged(kv);
     });
@@ -581,7 +583,7 @@ class _GolfHoleState extends State<GolfHoleState> {
       setState(() {
         if (_left < _teeToHoleWidth) {
           _left = _left + _leftBallMovePerStroke;
-          print(_left);
+          debugPrint(_left.toString());
           _top = _top + _topBallMovePerStroke;
         }
       });
