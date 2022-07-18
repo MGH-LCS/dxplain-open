@@ -1,0 +1,380 @@
+{
+  "statusCode": 1,
+  "message": "SUCCESS",
+  "data": [
+    {
+      "description": "24 year old female with a day of right lower quadrant pain",
+      "date": "2022-07-16",
+      "hole": 1,
+      "par": 10,
+      "stroke": 1,
+      "findings": [
+        {
+          "id": 1,
+          "name": "Lower Abdominal Pain",
+          "fid": 63,
+          "isCorrect": true,
+          "isClicked": true
+        },
+        {
+          "id": 2,
+          "name": "RLQ Abd Tenderness",
+          "fid": 90,
+          "isCorrect": true,
+          "isClicked": false
+        },
+        {
+          "id": 3,
+          "name": "Ileus",
+          "fid": 6591,
+          "isCorrect": true,
+          "isClicked": false
+        },
+        {
+          "id": 4,
+          "name": "Anorexia",
+          "fid": 272,
+          "isCorrect": true,
+          "isClicked": false
+        },
+        {
+          "id": 5,
+          "name": "Fever",
+          "fid": 1958,
+          "isCorrect": true,
+          "isClicked": false
+        },
+        {
+          "id": 6,
+          "name": "Chills",
+          "fid": 949,
+          "isCorrect": false,
+          "isClicked": false
+        },
+        {
+          "id": 7,
+          "name": "Constipation",
+          "fid": 1092,
+          "isCorrect": false,
+          "isClicked": false
+        },
+        {
+          "id": 8,
+          "name": "Back Pain",
+          "fid": 515,
+          "isCorrect": false,
+          "isClicked": false
+        },
+        {
+          "id": 9,
+          "name": "Weight Loss",
+          "fid": 5739,
+          "isCorrect": false,
+          "isClicked": false
+        },
+        {
+          "id": 10,
+          "name": "Genital Pain",
+          "fid": 2240,
+          "isCorrect": false,
+          "isClicked": false
+        },
+        {
+          "id": 11,
+          "name": "Menorrhagia",
+          "fid": 3334,
+          "isCorrect": false,
+          "isClicked": false
+        },
+        {
+          "id": 12,
+          "name": "Sudden Onset of SX",
+          "fid": 3765,
+          "isCorrect": false,
+          "isClicked": false
+        },
+        {
+          "id": 13,
+          "name": "Infertility",
+          "fid": 5916,
+          "isCorrect": false,
+          "isClicked": false
+        },
+        {
+          "id": 14,
+          "name": "Cigarette Smoking",
+          "fid": 972,
+          "isCorrect": false,
+          "isClicked": false
+        },
+        {
+          "id": 15,
+          "name": "IUD in Place",
+          "fid": 6361,
+          "isCorrect": false,
+          "isClicked": false
+        },
+        {
+          "id": 16,
+          "name": "Uterine Contraction",
+          "fid": 5499,
+          "isCorrect": false,
+          "isClicked": false
+        }
+      ],
+      "answers": [
+        {
+          "combination": "1",
+          "score": 2
+        },
+        {
+          "combination": "2",
+          "score": 5
+        },
+        {
+          "combination": "3",
+          "score": 2
+        },
+        {
+          "combination": "4",
+          "score": 1
+        },
+        {
+          "combination": "5",
+          "score": 1
+        },
+        {
+          "combination": "1,2",
+          "score": 7
+        },
+        {
+          "combination": "1,3",
+          "score": 4
+        },
+        {
+          "combination": "1,4",
+          "score": 3
+        },
+        {
+          "combination": "1,5",
+          "score": 3
+        },
+        {
+          "combination": "2,3",
+          "score": 7
+        },
+        {
+          "combination": "2,4",
+          "score": 5
+        },
+        {
+          "combination": "2,5",
+          "score": 6
+        },
+        {
+          "combination": "3,4",
+          "score": 3
+        },
+        {
+          "combination": "3,5",
+          "score": 3
+        },
+        {
+          "combination": "4,5",
+          "score": 2
+        },
+        {
+          "combination": "1,2,3",
+          "score": 9
+        },
+        {
+          "combination": "1,2,4",
+          "score": 8
+        },
+        {
+          "combination": "1,2,5",
+          "score": 8
+        },
+        {
+          "combination": "1,3,4",
+          "score": 5
+        },
+        {
+          "combination": "1,3,5",
+          "score": 5
+        },
+        {
+          "combination": "1,4,5",
+          "score": 4
+        },
+        {
+          "combination": "2,3,4",
+          "score": 8
+        },
+        {
+          "combination": "2,3,5",
+          "score": 8
+        },
+        {
+          "combination": "2,4,5",
+          "score": 7
+        },
+        {
+          "combination": "3,4,5",
+          "score": 4
+        },
+        {
+          "combination": "1,2,3,4",
+          "score": 9
+        },
+        {
+          "combination": "1,2,3,5",
+          "score": 10
+        },
+        {
+          "combination": "1,2,4,5",
+          "score": 8
+        },
+        {
+          "combination": "1,3,4,5",
+          "score": 5
+        },
+        {
+          "combination": "2,3,4,5",
+          "score": 8
+        },
+        {
+          "combination": "1,2,3,4,5",
+          "score": 10
+        }
+      ],
+      "disease": [
+        {
+          "name": "Acute Appendicitis  (case Diagnosis)",
+          "id": 131,
+          "is_correct": true
+        },
+        {
+          "name": "Mesenteric Adenitis",
+          "id": 1407,
+          "is_correct": false
+        },
+        {
+          "name": "Acute Pelvic Inflammatory Disease",
+          "id": 1763,
+          "is_correct": false
+        },
+        {
+          "name": "Psoas Abscess",
+          "id": 2144,
+          "is_correct": false
+        },
+        {
+          "name": "Appendicieal Abscess",
+          "id": 177,
+          "is_correct": false
+        },
+        {
+          "name": "Diverticulitis",
+          "id": 564,
+          "is_correct": false
+        },
+        {
+          "name": "Viral Gastroenteritis",
+          "id": 828,
+          "is_correct": false
+        },
+        {
+          "name": "Regional Enteritis (Crohn Disease)",
+          "id": 668,
+          "is_correct": false
+        },
+        {
+          "name": "Peritonitis",
+          "id": 1683,
+          "is_correct": false
+        },
+        {
+          "name": "Ovary Torsion",
+          "id": 662,
+          "is_correct": false
+        },
+        {
+          "name": "Acute Pancreatitis",
+          "id": 1668,
+          "is_correct": false
+        },
+        {
+          "name": "Small Intestine Volvulus",
+          "id": 1176,
+          "is_correct": false
+        },
+        {
+          "name": "Ruptured Tubal Pregnancy",
+          "id": 1729,
+          "is_correct": false
+        },
+        {
+          "name": "Adenocarcinoma Of The Appendix",
+          "id": 132,
+          "is_correct": false
+        },
+        {
+          "name": "Endometriosis",
+          "id": 660,
+          "is_correct": false
+        },
+        {
+          "name": "Intestinal Perforation",
+          "id": 1169,
+          "is_correct": false
+        },
+        {
+          "name": "Functional Excessive Intestinal Gas",
+          "id": 2561,
+          "is_correct": false
+        },
+        {
+          "name": "Oophoritis",
+          "id": 1633,
+          "is_correct": false
+        },
+        {
+          "name": "Ovarian Pregnancy",
+          "id": 1728,
+          "is_correct": false
+        },
+        {
+          "name": "Measles",
+          "id": 1454,
+          "is_correct": false
+        },
+        {
+          "name": "Cholelithiasis",
+          "id": 395,
+          "is_correct": false
+        },
+        {
+          "name": "Norovirus",
+          "id": 2419,
+          "is_correct": false
+        },
+        {
+          "name": "False Labor",
+          "id": 492,
+          "is_correct": false
+        },
+        {
+          "name": "Food Allergy",
+          "id": 789,
+          "is_correct": false
+        },
+        {
+          "name": "Acute Gastritis",
+          "id": 825,
+          "is_correct": false
+        }
+      ]
+    }
+  ]
+}
